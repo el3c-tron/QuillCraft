@@ -4,6 +4,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import {User} from "../models/user.model.js"
 import { uploadOnCloudinary } from "../utils/fileUpload.js";
 import jwt from 'jsonwebtoken'
+import mongoose from "mongoose";
 
 const generateAccessAndRefreshTokens = async (userId) => {
     
@@ -166,10 +167,96 @@ const getCurrentUser = asyncHandler( async (req, res) => {
             );
 } );
 
+const getUserBlogs = asyncHandler( async(req, res) => {
+
+    const userId = req?.user._id;
+
+    const user = await User.aggregate([
+        {
+            $match:{
+                _id: new mongoose.Types.ObjectId(userId)
+            }
+        },
+        {
+            $lookup:{
+                from: "blogs",
+                localField: "_id",
+                foreignField: "owner",
+                as: "blogs"
+            }
+        },
+        {
+            $project:{
+                blogs: 1
+            }
+        }
+    ]);
+
+    return res.status(200).json(new ApiResponse(200, user, "User Blogs Fetched"));
+
+} );
+
+const getUserBookmarkedBlogs = asyncHandler( async(req, res) => {
+    const userId = req?.user._id;
+
+    const user = await User.aggregate([
+        {
+            $match:{
+                _id: new mongoose.Types.ObjectId(userId)
+            }
+        },
+        {
+            $lookup:{
+                from: "blogs",
+                localField: "_id",
+                foreignField: "bookmarkedBy",
+                as: "bookmarks"
+            }
+        },
+        {
+            $project:{
+                bookmarks:1
+            }
+        }
+    ]);
+
+    return res.status(200).json(new ApiResponse(200, user, "Bookmarked Blogs Fetched Successfully"));
+} );
+
+const getUserLikedBlogs = asyncHandler( async(req, res) => {
+    const userId = req?.user._id;
+
+    const user = await User.aggregate([
+        {
+            $match:{
+                _id: new mongoose.Types.ObjectId(userId)
+            }
+        },
+        {
+            $lookup:{
+                from: "blogs",
+                localField: "_id",
+                foreignField: "likedBy",
+                as: "liked"
+            }
+        },
+        {
+            $project:{
+                liked:1
+            }
+        }
+    ]);
+
+    return res.status(200).json(new ApiResponse(200, user, "Liked Blogs Fetched Successfully"));
+} );
+
 export {
     registerUser,
     loginUser,
     logoutUser,
     changePassword,
-    getCurrentUser
+    getCurrentUser,
+    getUserBlogs,
+    getUserBookmarkedBlogs,
+    getUserLikedBlogs
 };

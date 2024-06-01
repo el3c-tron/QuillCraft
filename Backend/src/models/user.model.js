@@ -39,6 +39,12 @@ const userSchema = new mongoose.Schema({
             ref: "Blog"
         }
     ],
+    liked: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Blog"
+        }
+    ],
     avatar: {
         type: String
     },

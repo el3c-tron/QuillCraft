@@ -2,6 +2,9 @@ import {Router} from 'express'
 import { 
     changePassword, 
     getCurrentUser, 
+    getUserBlogs, 
+    getUserBookmarkedBlogs, 
+    getUserLikedBlogs, 
     loginUser, 
     logoutUser, 
     registerUser 
@@ -23,6 +26,12 @@ router.route("/logout").post(verifyJWT, logoutUser);
 router.route("/changePassword").post(verifyJWT, changePassword);
 
 router.route("/getCurrentUser").get(verifyJWT, getCurrentUser);
+
+router.route("/getUserBlogs").get(verifyJWT, getUserBlogs);
+
+router.route("/getUserBookmarkedBlogs").get(verifyJWT, getUserBookmarkedBlogs);
+
+router.route("/getUserLikedBlogs").get(verifyJWT, getUserLikedBlogs);
 
 export default router;
 
