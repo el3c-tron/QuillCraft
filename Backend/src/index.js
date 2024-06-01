@@ -4,6 +4,7 @@ import {app} from './app.js';
 
 dotenv.config({path: './.env'});
 
+
 // RETURNS PROMISE
 connectDB()
     .then(() => {
