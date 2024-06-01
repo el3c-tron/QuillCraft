@@ -26,6 +26,12 @@ const blogSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "Comment"
         }
+    ],
+    bookmarkedBy: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        }
     ]
 
 },{timestamps: true});

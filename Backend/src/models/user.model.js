@@ -42,6 +42,10 @@ const userSchema = new mongoose.Schema({
     avatar: {
         type: String
     },
+    refreshToken: {
+        type: String
+    },
+
 },{timestamps: true});
 
 userSchema.pre("save", async function(next) {
