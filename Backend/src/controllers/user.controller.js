@@ -192,7 +192,8 @@ const getUserBlogs = asyncHandler( async(req, res) => {
         }
     ]);
 
-    return res.status(200).json(new ApiResponse(200, user, "User Blogs Fetched"));
+
+    return res.status(200).json(new ApiResponse(200, user[0].blogs, "User Blogs Fetched"));
 
 } );
 
@@ -220,7 +221,7 @@ const getUserBookmarkedBlogs = asyncHandler( async(req, res) => {
         }
     ]);
 
-    return res.status(200).json(new ApiResponse(200, user, "Bookmarked Blogs Fetched Successfully"));
+    return res.status(200).json(new ApiResponse(200, user[0].bookmarks, "Bookmarked Blogs Fetched Successfully"));
 } );
 
 const getUserLikedBlogs = asyncHandler( async(req, res) => {
@@ -247,7 +248,7 @@ const getUserLikedBlogs = asyncHandler( async(req, res) => {
         }
     ]);
 
-    return res.status(200).json(new ApiResponse(200, user, "Liked Blogs Fetched Successfully"));
+    return res.status(200).json(new ApiResponse(200, user[0].liked, "Liked Blogs Fetched Successfully"));
 } );
 
 const updateUserInfo = asyncHandler( async(req, res) => {
@@ -294,6 +295,7 @@ const updateUserInfo = asyncHandler( async(req, res) => {
 
 } );
 
+
 export {
     registerUser,
     loginUser,
@@ -303,5 +305,5 @@ export {
     getUserBlogs,
     getUserBookmarkedBlogs,
     getUserLikedBlogs,
-    updateUserInfo
+    updateUserInfo,
 };

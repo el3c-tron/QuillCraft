@@ -27,24 +27,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    blogs: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Blog"
-        }
-    ],
-    bookmarks: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Blog"
-        }
-    ],
-    liked: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Blog"
-        }
-    ],
     avatar: {
         type: String
     },
