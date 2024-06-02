@@ -7,7 +7,8 @@ import {
     getUserLikedBlogs, 
     loginUser, 
     logoutUser, 
-    registerUser 
+    registerUser, 
+    updateUserInfo
 } from '../controllers/user.controller.js';
 import {upload} from '../middlewares/multer.middleware.js'
 import {verifyJWT} from '../middlewares/auth.middleware.js'
@@ -32,6 +33,12 @@ router.route("/getUserBlogs").get(verifyJWT, getUserBlogs);
 router.route("/getUserBookmarkedBlogs").get(verifyJWT, getUserBookmarkedBlogs);
 
 router.route("/getUserLikedBlogs").get(verifyJWT, getUserLikedBlogs);
+
+router.route("/updateUserInfo").post(
+    upload.single("avatar"),
+    verifyJWT,
+    updateUserInfo
+);
 
 export default router;
 

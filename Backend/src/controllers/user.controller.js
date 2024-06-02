@@ -29,7 +29,7 @@ const generateAccessAndRefreshTokens = async (userId) => {
 const registerUser = asyncHandler( async (req, res) => {
 
     const {fullname, username, email, password} = req.body;
-    const avatarLoaclPath = req.file?.path;
+    const avatarLocalPath = req.file?.path;
 
     const isEmpty = [fullname, username, email, password].some( (field) => {
         if(field?.trim() === "") return true;
@@ -47,8 +47,8 @@ const registerUser = asyncHandler( async (req, res) => {
 
     let avatar;
 
-    if(avatarLoaclPath) {
-        avatar = await uploadOnCloudinary(avatarLoaclPath);
+    if(avatarLocalPath) {
+        avatar = await uploadOnCloudinary(avatarLocalPath);
         if(!avatar) throw new ApiError(500, "userController :: registerUser :: Error while uploading avatar");
     } 
 
@@ -250,6 +250,50 @@ const getUserLikedBlogs = asyncHandler( async(req, res) => {
     return res.status(200).json(new ApiResponse(200, user, "Liked Blogs Fetched Successfully"));
 } );
 
+const updateUserInfo = asyncHandler( async(req, res) => {
+
+    const userId = req.user?._id;
+    const previousAvatar = req.user.avatar;
+    if(!userId) throw new ApiError(404, "userController :: updateUserInfo :: User Not Found !! (unauthorized)");
+
+    const {fullname, username, email} = req.body;
+    const avatarLocalPath = req.file?.path;
+
+    const existingUsername = await User.findOne({username});
+    const existingEmail = await User.findOne({email});
+
+    if(existingUsername) throw new ApiError(400, "User already exists with this username");
+    if(existingEmail) throw new ApiError(400, "User already exists with this email");
+
+    let avatar;
+
+    if(avatarLocalPath) {
+        avatar = await uploadOnCloudinary(avatarLocalPath);
+        if(!avatar) throw new ApiError(500, "userController :: updateUserInfo :: Error while uploading avatar");
+    }
+
+    const user = await User.findByIdAndUpdate(
+        userId,
+        {
+            fullname,
+            username: username.toLowerCase(),
+            email,
+            avatar: avatar?.url || previousAvatar
+        },
+        {
+            new: true
+        }
+    );
+
+    return res
+            .status(200)
+            .json(
+                new ApiResponse(200, user, "UserInfo Updated successfully")
+            );
+
+
+} );
+
 export {
     registerUser,
     loginUser,
@@ -258,5 +302,6 @@ export {
     getCurrentUser,
     getUserBlogs,
     getUserBookmarkedBlogs,
-    getUserLikedBlogs
+    getUserLikedBlogs,
+    updateUserInfo
 };
