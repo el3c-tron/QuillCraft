@@ -2,6 +2,7 @@ import { ApiError } from "../utils/apiError.js";
 import { ApiResponse } from "../utils/apiResponse.js"
 import { asyncHandler } from "../utils/asyncHandler.js";
 import {User} from "../models/user.model.js"
+import {Blog} from "../models/blog.model.js"
 import { uploadOnCloudinary } from "../utils/fileUpload.js";
 import jwt from 'jsonwebtoken'
 import mongoose from "mongoose";
@@ -200,7 +201,7 @@ const getUserBlogs = asyncHandler( async(req, res) => {
 const getUserBookmarkedBlogs = asyncHandler( async(req, res) => {
     const userId = req?.user._id;
 
-    const user = await User.aggregate([
+    const userBookmarkedBlogs = await User.aggregate([
         {
             $match:{
                 _id: new mongoose.Types.ObjectId(userId)
@@ -208,9 +209,9 @@ const getUserBookmarkedBlogs = asyncHandler( async(req, res) => {
         },
         {
             $lookup:{
-                from: "blogs",
+                from: "bookmarks",
                 localField: "_id",
-                foreignField: "bookmarkedBy",
+                foreignField: "owner",
                 as: "bookmarks"
             }
         },
@@ -221,13 +222,24 @@ const getUserBookmarkedBlogs = asyncHandler( async(req, res) => {
         }
     ]);
 
-    return res.status(200).json(new ApiResponse(200, user[0].bookmarks, "Bookmarked Blogs Fetched Successfully"));
+    const allIds = [];
+    userBookmarkedBlogs[0].bookmarks.forEach(obj => {
+        allIds.push(obj.blog);
+    });
+
+    let blogs = [];
+
+    for (let id of allIds) {
+        blogs.push(await Blog.findById(id));
+    }
+
+    return res.status(200).json(new ApiResponse(200, blogs, "Bookmarked Blogs Fetched Successfully"));
 } );
 
 const getUserLikedBlogs = asyncHandler( async(req, res) => {
     const userId = req?.user._id;
 
-    const user = await User.aggregate([
+    const userLikedBlogs = await User.aggregate([
         {
             $match:{
                 _id: new mongoose.Types.ObjectId(userId)
@@ -235,20 +247,31 @@ const getUserLikedBlogs = asyncHandler( async(req, res) => {
         },
         {
             $lookup:{
-                from: "blogs",
+                from: "likes",
                 localField: "_id",
-                foreignField: "likedBy",
-                as: "liked"
+                foreignField: "owner",
+                as: "likedBlogs"
             }
         },
         {
             $project:{
-                liked:1
+                likedBlogs:1
             }
         }
     ]);
 
-    return res.status(200).json(new ApiResponse(200, user[0].liked, "Liked Blogs Fetched Successfully"));
+    const allIds = [];
+    userLikedBlogs[0].likedBlogs.forEach(obj => {
+        allIds.push(obj.blog);
+    });
+
+    let blogs = [];
+
+    for (let id of allIds) {
+        blogs.push(await Blog.findById(id));
+    }
+
+    return res.status(200).json(new ApiResponse(200, blogs, "Liked Blogs Fetched Successfully"));
 } );
 
 const updateUserInfo = asyncHandler( async(req, res) => {
@@ -295,6 +318,7 @@ const updateUserInfo = asyncHandler( async(req, res) => {
 
 } );
 
+// :TODO: USER DELETION
 
 export {
     registerUser,

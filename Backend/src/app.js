@@ -3,6 +3,9 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import userRouter from "./routes/user.routes.js"
 import blogRouter from "./routes/blog.routes.js"
+import likeRouter from "./routes/like.routes.js"
+import bookmarkRouter from "./routes/bookmark.routes.js"
+import commentRouter from "./routes/comment.routes.js"
 
 const app = express();
 
@@ -24,6 +27,9 @@ app.use(cookieParser());
 
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/blog", blogRouter);
+app.use("/api/v1/like", likeRouter);
+app.use("/api/v1/bookmark", bookmarkRouter);
+app.use("/api/v1/comment", commentRouter);
 
 
 export {app}
