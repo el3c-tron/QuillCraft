@@ -32,6 +32,24 @@ const bookmarkEnable = asyncHandler( async(req, res) => {
 
 const bookmarkDisable = asyncHandler( async(req, res) => {
 
+    const {blogId} = req.params;
+    const userId = req.user?._id;
+
+    await Bookmark.deleteOne(
+        {
+            owner: new mongoose.Types.ObjectId(userId),
+            blog: new mongoose.Types.ObjectId(blogId)
+        }
+    );
+
+    // const isDeleted = await Like.findById()
+
+    return res
+            .status(200)
+            .json(
+                new ApiResponse(200, {}, "Deleted Successfully")
+            )
+
 } );
 
 export {

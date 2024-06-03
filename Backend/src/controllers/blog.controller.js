@@ -4,6 +4,9 @@ import { ApiError } from "../utils/apiError.js";
 import { ApiResponse } from "../utils/apiResponse.js"
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { uploadOnCloudinary } from "../utils/fileUpload.js";
+import { Like } from "../models/like.model.js";
+import { Bookmark } from "../models/bookmark.model.js"
+import { Comment } from "../models/comment.model.js"
 
 const createNewBlog = asyncHandler( async (req, res) => {
 
@@ -196,7 +199,42 @@ const blogComments = asyncHandler( async(req, res) => {
 
 } );
 
-// :TODO: BLOG DELETION
+const deleteBlog = asyncHandler( async(req, res) => {
+
+    const {id} = req.params;
+
+    await Like.deleteMany(
+        {
+            blog: new mongoose.Types.ObjectId(id)
+        }
+    );
+
+    await Bookmark.deleteMany(
+        {
+            blog: new mongoose.Types.ObjectId(id)
+        }
+    );
+
+    await Comment.deleteMany(
+        {
+            blog: new mongoose.Types.ObjectId(id)
+        }
+    );
+
+    await Blog.deleteOne(
+        {
+            _id: new mongoose.Types.ObjectId(id)
+        }
+    );
+
+    return res
+            .status(200)
+            .json(
+                new ApiResponse(200, {}, "Blog Deleted Successfully")
+            );
+
+ 
+} );
 
 export {
     createNewBlog,
@@ -205,4 +243,5 @@ export {
     getBlogById,
     getAllBlogs,
     blogComments,
+    deleteBlog,
 }
