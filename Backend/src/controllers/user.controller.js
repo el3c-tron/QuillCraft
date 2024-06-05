@@ -32,25 +32,50 @@ const registerUser = asyncHandler( async (req, res) => {
     const {fullname, username, email, password} = req.body;
     const avatarLocalPath = req.file?.path;
 
+    // console.log(fullname, username, email, password);
+    // console.log(req.file);
+
     const isEmpty = [fullname, username, email, password].some( (field) => {
         if(field?.trim() === "") return true;
 
         return false;
     } );
 
-    if(isEmpty) throw new ApiError(400, "All fields required");
+    if(isEmpty) {
+        return res
+                .status(400)
+                .json(new ApiError(400, "All fields required", {fullname, username, email, password}));
+    }
+    // if(isEmpty) throw new ApiError(400, "All fields required");
 
     const existingUsername = await User.findOne({username});
     const existingEmail = await User.findOne({email});
 
-    if(existingUsername) throw new ApiError(400, "User already exists with this username");
-    if(existingEmail) throw new ApiError(400, "User already exists with this email");
+    if(existingUsername) {
+        return res
+                .status(400)
+                .json(new ApiError(400, "User already exists with this username", {fullname, email, password}));
+    }
+    if(existingEmail) {
+        return res
+                .status(400)
+                .json(new ApiError(400, "User already exists with this email", {fullname, username, password}));
+    }
+
+    // if(existingUsername) throw new ApiError(400, "User already exists with this username");
+    // if(existingEmail) throw new ApiError(400, "User already exists with this email");
 
     let avatar;
 
     if(avatarLocalPath) {
         avatar = await uploadOnCloudinary(avatarLocalPath);
-        if(!avatar) throw new ApiError(500, "userController :: registerUser :: Error while uploading avatar");
+
+        if(!avatar) {
+            return res
+                    .status(500)
+                    .json(new ApiError(500, "Error while uploading avatar", {fullname, username, email, password}));
+        }
+        // if(!avatar) throw new ApiError(500, "userController :: registerUser :: Error while uploading avatar");
     } 
 
     const user = await User.create(
@@ -64,8 +89,13 @@ const registerUser = asyncHandler( async (req, res) => {
     );
 
     const createdUser = await User.findById(user._id).select("-password -refreshtoken");
-
-    if(!createdUser) throw new ApiError(500, "userColtroller :: registerUser :: Error while creating user");
+    
+    if(!createdUser) {
+        return res
+                .status(500)
+                .json(new ApiError(500, "Failed to create user", {fullname, username, email, password}));
+    }
+    // if(!createdUser) throw new ApiError(500, "userColtroller :: registerUser :: Error while creating user");
 
     return res.status(200).json(
         new ApiResponse(200, createdUser, "User Created Successfully")
@@ -77,15 +107,30 @@ const registerUser = asyncHandler( async (req, res) => {
 const loginUser = asyncHandler( async (req, res) => {
 
     const {username, password} = req.body;
+    
+    if(!username) {
+        return res.status(400).json(new ApiError(400, "Username required !!"));
+    }
+    if(!password) {
+        return res.status(400).json(new ApiError(400, "Password required !!"));
+    }
 
-    if(!username) throw new ApiError(400, "userController :: loginUser :: Username required !!");
-    if(!password) throw new ApiError(400, "userController :: loginUser :: Password required !!");
+    // if(!username) throw new ApiError(400, "userController :: loginUser :: Username required !!");
+    // if(!password) throw new ApiError(400, "userController :: loginUser :: Password required !!");
 
     const user = await User.findOne({username});
-    if(!user) throw new ApiError(400, "userController :: loginUser :: User with this username doesn't exists");
+
+    if(!user) {
+        return res.status(400).json(new ApiError(400, "User with this username doesn't exists"))
+    }
+    // if(!user) throw new ApiError(400, "userController :: loginUser :: User with this username doesn't exists");
 
     const passwordVerify = await user.isPasswordCorrect(password);
-    if(!passwordVerify) throw new ApiError(400, "userController :: loginUser :: Password is Incorrect !!");
+
+    if(!passwordVerify) {
+        return res.status(400).json(new ApiError(400, "Password is Incorrect !!"))
+    }
+    // if(!passwordVerify) throw new ApiError(400, "userController :: loginUser :: Password is Incorrect !!");
 
     const {accessToken, refreshToken} = await generateAccessAndRefreshTokens(user._id);
 
@@ -141,11 +186,18 @@ const changePassword = asyncHandler( async (req, res) => {
     const {oldPassword, newPassword} = req.body;
 
     const user = await User.findById(userId);
-    if(!user) throw new ApiError(400, "userController :: changePassword :: User doesn't exists");
+    if(!user) {
+        return res.status(400).json(new ApiError(400, "User with this username doesn't exists"))
+    }
+    // if(!user) throw new ApiError(400, "userController :: changePassword :: User doesn't exists");
 
 
     const verifyPassword = await user.isPasswordCorrect(oldPassword);
-    if(!verifyPassword) throw new ApiError(400, "userController: :: changePassword :: Old Passowrd is incorrect");
+
+    if(!passwordVerify) {
+        return res.status(400).json(new ApiError(400, "Old Password is Incorrect !!"))
+    }
+    // if(!verifyPassword) throw new ApiError(400, "userController: :: changePassword :: Old Passowrd is incorrect");
 
     user.password = newPassword;
 
@@ -278,7 +330,11 @@ const updateUserInfo = asyncHandler( async(req, res) => {
 
     const userId = req.user?._id;
     const previousAvatar = req.user.avatar;
-    if(!userId) throw new ApiError(404, "userController :: updateUserInfo :: User Not Found !! (unauthorized)");
+
+    if(!userId) {
+        return res.status(404).json(new ApiError(404, "User Not Found !! (unauthorized)"))
+    }
+    // if(!userId) throw new ApiError(404, "userController :: updateUserInfo :: User Not Found !! (unauthorized)");
 
     const {fullname, username, email} = req.body;
     const avatarLocalPath = req.file?.path;
@@ -286,14 +342,30 @@ const updateUserInfo = asyncHandler( async(req, res) => {
     const existingUsername = await User.findOne({username});
     const existingEmail = await User.findOne({email});
 
-    if(existingUsername) throw new ApiError(400, "User already exists with this username");
-    if(existingEmail) throw new ApiError(400, "User already exists with this email");
+    if(existingUsername) {
+        return res
+                .status(400)
+                .json(new ApiError(400, "User already exists with this username", {fullname, email}));
+    }
+    if(existingEmail) {
+        return res
+                .status(400)
+                .json(new ApiError(400, "User already exists with this email", {fullname, username}));
+    }
+
+    // if(existingUsername) throw new ApiError(400, "User already exists with this username");
+    // if(existingEmail) throw new ApiError(400, "User already exists with this email");
 
     let avatar;
 
     if(avatarLocalPath) {
         avatar = await uploadOnCloudinary(avatarLocalPath);
-        if(!avatar) throw new ApiError(500, "userController :: updateUserInfo :: Error while uploading avatar");
+        if(!avatar) {
+            return res
+                    .status(500)
+                    .json(new ApiError(500, "Error while uploading avatar", {fullname, username, email}));
+        }
+        // if(!avatar) throw new ApiError(500, "userController :: updateUserInfo :: Error while uploading avatar");
     }
 
     const user = await User.findByIdAndUpdate(
@@ -318,7 +390,6 @@ const updateUserInfo = asyncHandler( async(req, res) => {
 
 } );
 
-// :TODO: USER DELETION
 
 export {
     registerUser,

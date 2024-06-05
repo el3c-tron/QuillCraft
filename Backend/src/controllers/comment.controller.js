@@ -10,9 +10,19 @@ const postComment = asyncHandler( async(req, res) => {
     const {blogId} = req.params;
     const {content} = req.body;
 
-    if(!userId || !blogId) throw new ApiError(402, "commentController :: postComment :: Unauthorized");
+    if(!userId || !blogId) {
+        return res
+                .status(404)
+                .json(new ApiError(404, "Unauthorized Access"));
+    }
+    // if(!userId || !blogId) throw new ApiError(402, "commentController :: postComment :: Unauthorized");
 
-    if(content.trim() === "") throw new ApiError(400, "commentController :: postComment :: All fields required");
+    if(content.trin() === "") {
+        return res
+                .status(400)
+                .json(new ApiError(400, "Content Required"));
+    }
+    // if(content.trim() === "") throw new ApiError(400, "commentController :: postComment :: All fields required");
 
     const comment = await Comment.create(
         {
@@ -24,7 +34,12 @@ const postComment = asyncHandler( async(req, res) => {
 
     const createdComment = await Comment.findById(comment._id);
 
-    if(!createdComment) throw new ApiError(500, "commentController :: postComment :: Failed to post comment");
+    if(!createdComment) {
+        return res
+                .status(500)
+                .json(new ApiError(500, "Failed to post comment", {content}));
+    }
+    // if(!createdComment) throw new ApiError(500, "commentController :: postComment :: Failed to post comment");
 
     return res
             .status(200)

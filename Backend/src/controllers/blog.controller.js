@@ -14,8 +14,20 @@ const createNewBlog = asyncHandler( async (req, res) => {
     const owner = req.user?._id;
     const coverImageLocalPath = req.file?.path;
 
-    if(!owner) throw new ApiError(404, "blogController :: createNewBlog :: Unauthorized");
-    if(!coverImageLocalPath) throw new ApiError(401, "blogController :: createNewBlog :: CoverImage Also Required");
+    if(!owner) {
+        return res
+                .status(404)
+                .json(new ApiError(404, "Unauthorized Access", {}));
+
+    }
+    // if(!owner) throw new ApiError(404, "blogController :: createNewBlog :: Unauthorized");
+
+    if(!coverImageLocalPath) {
+        return res
+                .status(400)
+                .json(new ApiError(400, "CoverImage Also Required", {content, title}));
+    }
+    // if(!coverImageLocalPath) throw new ApiError(401, "blogController :: createNewBlog :: CoverImage Also Required");
 
     const isEmpty = [content, title].some( (field) => {
         if(field?.trim() === "") return true;
@@ -23,11 +35,22 @@ const createNewBlog = asyncHandler( async (req, res) => {
         return false;
     } );
 
-    if(isEmpty) throw new ApiError(400, "All fields required");
+    // if(isEmpty) throw new ApiError(400, "All fields required");
+    if(isEmpty) {
+        return res
+                .status(400)
+                .json(new ApiError(400, "All Fields Required", {content, title}));
+    }
 
     const coverImage = await uploadOnCloudinary(coverImageLocalPath);
 
-    if(!coverImage || !coverImage.url) throw new ApiError(500, "blogController :: createNewBlog :: Failed to upload Image");
+    // if(!coverImage || !coverImage.url) throw new ApiError(500, "blogController :: createNewBlog :: Failed to upload Image");
+
+    if(!coverImage || !coverImage.url) {
+        return res
+                .status(500)
+                .json(new ApiError(500, "Failed to upload Image", {content, title}));
+    }
 
     const blog = await Blog.create(
         {
@@ -39,7 +62,13 @@ const createNewBlog = asyncHandler( async (req, res) => {
     );
 
     const newBlog = await Blog.findById(blog._id);
-    if(!newBlog) throw new ApiError(500, "blogController :: createNewBlog :: Failed in creation of Blog");
+    // if(!newBlog) throw new ApiError(500, "blogController :: createNewBlog :: Failed in creation of Blog");
+
+    if(!newBlog) {
+        return res
+                .status(500)
+                .json(new ApiError(500, "Failed to post blog", {content, title}));
+    }
 
     return res
             .status(200)
@@ -53,7 +82,12 @@ const getBlogLikes = asyncHandler( async(req, res) => {
 
     const {id} = req.params;
 
-    if(!id) throw new ApiError("404", "blogController :: getBlogLikes :: Blog Not Found !!!");
+    if(!id) {
+        return res
+                .status(404)
+                .josn(new ApiError(400, "Blog Not Found", {}));
+    }
+    // if(!id) throw new ApiError("404", "blogController :: getBlogLikes :: Blog Not Found !!!");
 
     const likesArray = await Blog.aggregate([
         {
@@ -90,7 +124,14 @@ const getBlogLikes = asyncHandler( async(req, res) => {
 const editBlog = asyncHandler( async(req, res) => {
 
     const user = req.user;
-    if(!user) throw new ApiError(401, "blogController :: editBlog :: UNAUTHORIZED");
+
+    if(!user) {
+        return res
+                .status(400)
+                .json(new ApiError(400, "Unauhtorized", {}));
+    }
+
+    // if(!user) throw new ApiError(401, "blogController :: editBlog :: UNAUTHORIZED");
 
     const {id} = req.params;
     const {title, content} = req.body;
@@ -103,14 +144,25 @@ const editBlog = asyncHandler( async(req, res) => {
         return false;
     } );
 
-    if(isEmpty) throw new ApiError(400, "All fields required");
+    if(isEmpty) {
+        return res
+                .status(400)
+                .json(new ApiError(400, "All Fields Required", {content, title}));
+    }
+
+    // if(isEmpty) throw new ApiError(400, "All fields required");
 
     let coverImage;
     if(coverImageLocalPath) {
 
         coverImage = await uploadOnCloudinary(coverImageLocalPath);
 
-        if(!coverImage) throw new ApiError(500, "blogController :: editBlog :: Error while uploading coverImage !!");
+        if(!coverImage) {
+            return res
+                    .status(500)
+                    .json(new ApiError(500, "Error while uploading coverImage", {content, title}));
+        }
+        // if(!coverImage) throw new ApiError(500, "blogController :: editBlog :: Error while uploading coverImage !!");
     }
 
     const newBlog = await Blog.findByIdAndUpdate(
@@ -138,11 +190,22 @@ const editBlog = asyncHandler( async(req, res) => {
 const getBlogById = asyncHandler( async(req, res) => {
 
     const user = req.user;
-    if(!user) throw new ApiError(400, "blogController :: getBlogById :: UNAUTHORIZED ");
+
+    if(!user) {
+        return res
+                .status(404)
+                .json(new ApiError(404, "Unathorized Access"));
+    }
+    // if(!user) throw new ApiError(400, "blogController :: getBlogById :: UNAUTHORIZED ");
 
     const {id} = req.params;
 
-    if(!id) throw new ApiError(404, "blogController :: getBlog :: Blog not found");
+    if(!id) {
+        return res
+                .status(404)
+                .json(new ApiError(404, "Blog Not Found"));
+    }
+    // if(!id) throw new ApiError(404, "blogController :: getBlog :: Blog not found");
     
     const blog = await Blog.findById(id);
 

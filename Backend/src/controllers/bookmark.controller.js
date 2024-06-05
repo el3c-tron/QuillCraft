@@ -9,7 +9,13 @@ const bookmarkEnable = asyncHandler( async(req, res) => {
     const {blogId} = req.params;
     const userId = req.user?._id;
 
-    if(!blogId || !userId) throw new ApiError(402, "bookmarkController :: bookmarkEnable :: UnAuthorized");
+    if(!blogId || !userId) {
+        return res
+                .status(404)
+                .json(new ApiError(404, "Unauthorized Access"));
+    }
+
+    // if(!blogId || !userId) throw new ApiError(402, "bookmarkController :: bookmarkEnable :: UnAuthorized");
 
     const bookmardDoc = await Bookmark.create(
         {
@@ -20,7 +26,13 @@ const bookmarkEnable = asyncHandler( async(req, res) => {
 
     const bookmark = await Bookmark.findById(bookmardDoc._id);
 
-    if(!bookmark) throw new ApiError(500, "bookmarkController :: bookmarkEnable :: Error on registring Bookmark");
+    if(!bookmark) {
+        return res
+                .status(500)
+                .json(new ApiError(500, "Error on marking bookmark"));
+    }
+
+    // if(!bookmark) throw new ApiError(500, "bookmarkController :: bookmarkEnable :: Error on registring Bookmark");
 
     return res
             .status(200)
