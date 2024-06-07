@@ -7,16 +7,19 @@ import Add from '../Svgs/Add.jsx'
 import LoginBtn from '../subComponents/LoginBtn.jsx'
 import RegisterBtn from '../subComponents/RegisterBtn.jsx'
 import { useSelector } from 'react-redux'
+import ProfileBtn from '../subComponents/ProfileBtn.jsx'
 
 function Header() {
 
   const authStatus = useSelector((state) => state.auth.status);
+  const userData = useSelector((state) => state.auth.userData);
+  
 
   return (
     <>
-      <div className='flex w-full h-fit pl-4 pr-2 pt-4 pb-4 mt-4 items-center justify-between rounded-lg '> 
+      <div className='flex w-full h-fit pl-4 pr-2 pt-4 pb-4 mt-4 items-center justify-between rounded-lg'> 
 
-        <div className="flex w-fit p-2 ml-3 cursor-pointer">
+        <div className="flex w-fit ml-3 cursor-pointer">
           <Logo />
         </div>
 
@@ -31,8 +34,17 @@ function Header() {
         </div>
 
         <div className='h-full flex w-[25%] justify-between mr-4 '>
-          <LoginBtn />
-          <RegisterBtn />
+
+          {
+            (!authStatus) ? (
+              <>
+                <LoginBtn />
+                <RegisterBtn />
+              </>
+            ) : (
+              <ProfileBtn />
+            )
+          }
         </div>
 
       </div>

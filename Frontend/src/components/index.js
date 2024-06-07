@@ -6,6 +6,7 @@ import LoginBtn from './subComponents/LoginBtn.jsx'
 import LogoutBtn from './subComponents/LogoutBtn.jsx'
 import RegisterBtn from './subComponents/RegisterBtn.jsx'
 import ProfileBtn from './subComponents/ProfileBtn.jsx'
+import LoginForm from './LoginForm/LoginForm.jsx'
 
 export {
     Header,
@@ -15,5 +16,6 @@ export {
     LoginBtn,
     LogoutBtn,
     RegisterBtn,
-    ProfileBtn
+    ProfileBtn,
+    LoginForm
 }
