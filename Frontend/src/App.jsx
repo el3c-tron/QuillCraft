@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import axios from 'axios'
 import {useDispatch} from 'react-redux'
 import {login, logout} from './store/authSlice.js'
-import { LoginForm, LogoutBtn, Header, Loader } from "./components/index.js";
+import { LoginForm, LogoutBtn, Header, Loader, RegisterForm } from "./components/index.js";
 
 function App() {
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch()
 
   useEffect(() =>{
@@ -23,7 +23,7 @@ function App() {
       })
       .catch((error) => {
         dispatch(logout());
-        console.log(error);
+        // console.log(error);
       })
       .finally(() => setLoading(false))
 

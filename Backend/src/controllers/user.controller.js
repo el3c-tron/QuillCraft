@@ -97,9 +97,20 @@ const registerUser = asyncHandler( async (req, res) => {
     }
     // if(!createdUser) throw new ApiError(500, "userColtroller :: registerUser :: Error while creating user");
 
-    return res.status(200).json(
-        new ApiResponse(200, createdUser, "User Created Successfully")
-    );
+    const {accessToken, refreshToken} = await generateAccessAndRefreshTokens(user._id);
+
+    const options = {
+        httpOnly: true,
+        secure: true
+    };
+
+    return res
+            .status(200)
+            .cookie("accessToken", accessToken, options)
+            .cookie("refreshToken", refreshToken, options)
+            .json(
+                new ApiResponse(200, createdUser, "User Created Successfully")
+            );
 
 
 } );
