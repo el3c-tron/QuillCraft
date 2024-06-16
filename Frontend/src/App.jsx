@@ -2,7 +2,14 @@ import { useEffect, useState } from "react";
 import axios from 'axios'
 import {useDispatch} from 'react-redux'
 import {login, logout} from './store/authSlice.js'
-import { LoginForm, LogoutBtn, Header, Loader, RegisterForm } from "./components/index.js";
+import { 
+  LoginForm, 
+  LogoutBtn, 
+  Header, 
+  Loader, 
+  RegisterForm, 
+  BlogCard 
+} from "./components/index.js";
 
 function App() {
 
@@ -30,7 +37,7 @@ function App() {
 
   }, []);
 
-  return loading ? (<Loader />) : <Header />
+  return loading ? (<Loader />) : (<BlogCard />)
 
 
 }
