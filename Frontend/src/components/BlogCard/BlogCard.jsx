@@ -12,9 +12,9 @@ function BlogCard() {
                         Heading
                     </p>
                 </div>
-                <div className='mt-2 h-[60%] text-wrap truncate'>
-                    <p className='text-md pl-2 font-[300] h-full overflow-hidden text-[#F1D4D4]'>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis dolorem nam doloremque quae exercitationem quibusdam dicta quaerat animi? Incidunt nam quisquam quo exercitationem nesciunt nisi aut fugiat sapiente eveniet minus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid esse enim, beatae tempora similique iusto aliquam maxime ab totam dolores, obcaecati maiores ratione? Temporibus perferendis non, expedita eius quos quod!
+                <div className='mt-2 h-auto min-h-[60%] max-h-[60%]'>
+                    <p className=' pl-2 font-[300] h-full text-[#F1D4D4] text-wrap truncate ...'>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi iste eaque mollitia perferendis repellat, quia dignissimos veritatis esse ratione officiis natus! Laudantium rerum magnam placeat maiores! Mollitia dicta iure hic? Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis dolorem nam doloremque quae exercitationem quibusdam dicta quaerat animi? Incidunt nam quisquam quo exercitationem nesciunt nisi aut fugiat sapiente eveniet minus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid esse enim, beatae tempora similique iusto aliquam maxime ab totam dolores, obcaecati maiores ratione? Temporibus perferendis non, expedita eius quos quod!
                     </p>
                 </div>
                 <div className='mt-2 flex h-[20%] items-center justify-around'>

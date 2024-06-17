@@ -10,6 +10,7 @@ import {
   RegisterForm, 
   BlogCard 
 } from "./components/index.js";
+import { Outlet } from "react-router-dom";
 
 function App() {
 
@@ -37,7 +38,9 @@ function App() {
 
   }, []);
 
-  return loading ? (<Loader />) : (<BlogCard />)
+  return loading ? (<Loader />) : (
+    <Outlet />
+  )
 
 
 }

@@ -4,12 +4,14 @@ import axios from 'axios'
 import { useDispatch } from 'react-redux';
 import { login, logout } from '../../store/authSlice.js';
 import {toast} from 'sonner'
+import { Link, useNavigate } from 'react-router-dom';
 
 function LoginForm() {
 
     const [show, setShow] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     const dispatch = useDispatch();
 
@@ -32,6 +34,7 @@ function LoginForm() {
                     console.log(userData);
                     dispatch(login({userData}));
                     toast.success(response.data.message);
+                    navigate('/');
                 }
                 else {
                     dispatch(logout());
@@ -106,7 +109,7 @@ function LoginForm() {
                     </div>
 
                     <div className='text-md mt-8 flex-col flex font-[200] justify-center items-center w-[460px]'>
-                        <p>don't have an account ? <span className='font-[400] text-[#33adff]'>register</span> </p>
+                        <p>don't have an account ? <Link to={'/registration'}> <span className='font-[400] text-[#33adff]'>register</span> </Link></p>
                     </div>
                 </div>
 
