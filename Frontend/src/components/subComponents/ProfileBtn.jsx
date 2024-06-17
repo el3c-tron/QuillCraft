@@ -6,7 +6,6 @@ function ProfileBtn() {
 
     const authStatus = useSelector((state) => state.auth.status);
     const userData = useSelector((state) => state.auth.userData);
-    console.log(authStatus);
 
 
   return (
@@ -40,9 +39,3 @@ function ProfileBtn() {
 }
 
 export default ProfileBtn
-
-{/* <button className='w-[50%] h-full border-2 border-blue-500 p-4 tracking-widest font-[200] text-[#eedcdc] hover:text-white hover:drop-shadow-[0_0px_0.5px_rgba(255,255,255,1)] transition-all ease-in-out duration-100'>
-          {
-            (userData) ? (userData.fullname) : 'Profile' 
-          }
-        </button> */}

@@ -1,20 +1,22 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Like from '../Svgs/Like'
 import Comment from '../Svgs/Comment'
 import Star from '../Svgs/Star'
+import axios from 'axios';
 
-function BlogCard() {
+function BlogCard({heading, content, blogId, coverImage}) {
+
   return (
-        <div className='w-[55vw] h-[35vh] flex shadow-[0px_0px_10px_5px_rgba(0,0,0,0.4)] rounded-lg'>
+        <div className='w-[55vw] h-[35vh] flex shadow-[0px_0px_10px_5px_rgba(0,0,0,0.2)] rounded-lg mb-[10rem]'>
             <div className='w-[60%] h-full flex flex-col p-2'>
-                <div className='h-[20%]'>
-                    <p className='text-[2rem] pl-2 max-w-[90%] truncate font-[600] text-transparent bg-clip-text bg-gradient-to-r from-[#F1D4D4] via-[#C060A1] to-[#8c14a4] w-fit'>
-                        Heading
+                <div className='h-[20%] mt-2 pl-3'>
+                    <p className='text-[1.7rem] max-w-[90%] truncate font-[600] text-transparent bg-clip-text bg-gradient-to-r from-[#F1D4D4] via-[#C060A1] to-[#8c14a4] w-fit'>
+                        {heading}
                     </p>
                 </div>
                 <div className='mt-2 h-auto min-h-[60%] max-h-[60%]'>
-                    <p className=' pl-2 font-[300] h-full text-[#F1D4D4] text-wrap truncate ...'>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi iste eaque mollitia perferendis repellat, quia dignissimos veritatis esse ratione officiis natus! Laudantium rerum magnam placeat maiores! Mollitia dicta iure hic? Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis dolorem nam doloremque quae exercitationem quibusdam dicta quaerat animi? Incidunt nam quisquam quo exercitationem nesciunt nisi aut fugiat sapiente eveniet minus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid esse enim, beatae tempora similique iusto aliquam maxime ab totam dolores, obcaecati maiores ratione? Temporibus perferendis non, expedita eius quos quod!
+                    <p className=' pl-3 font-[300] h-[80%] pr-3 text-[#F1D4D4] text-wrap truncate ...'>
+                        {content}
                     </p>
                 </div>
                 <div className='mt-2 flex h-[20%] items-center justify-around'>
@@ -30,11 +32,16 @@ function BlogCard() {
                     
                 </div>
             </div>
-            <div className='w-[40%] h-full'>
+            <div className='w-[40%] h-full flex'>
                 <img 
-                  src="http://res.cloudinary.com/dzfs29rwu/image/upload/v1717610282/nszramjdhoeklkztpuql.jpg" 
+                  src={coverImage} 
                   alt="Pic" 
-                  className='w-full h-full bg-no-repeat bg-center bg-cover p-2'
+                  className='box opacity-50 blur-[2px] w-full h-full bg-no-repeat bg-center bg-cover rounded-lg'
+                />
+                <img 
+                  src={coverImage} 
+                  alt="Pic" 
+                  className='scale-75 translate-x-[-21.1rem] bg-center bg-cover rounded-md bg-no-repeat'
                 />
             </div>
         </div>
