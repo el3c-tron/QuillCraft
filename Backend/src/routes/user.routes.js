@@ -4,6 +4,7 @@ import {
     getCurrentUser, 
     getUserBlogs, 
     getUserBookmarkedBlogs, 
+    getUserById, 
     getUserLikedBlogs, 
     loginUser, 
     logoutUser, 
@@ -27,6 +28,8 @@ router.route("/logout").post(verifyJWT, logoutUser);
 router.route("/changePassword").post(verifyJWT, changePassword);
 
 router.route("/getCurrentUser").get(verifyJWT, getCurrentUser);
+
+router.route("/getUserById/:userId").get(getUserById);
 
 router.route("/getUserBlogs").get(verifyJWT, getUserBlogs);
 

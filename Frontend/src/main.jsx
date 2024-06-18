@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import store from './store/store.js'
 import {Toaster} from 'sonner'
 import {RouterProvider, createBrowserRouter} from 'react-router-dom'
-import {Blog, BookmarkedBlogs, EditBlog, Home, LikedBlogs, Login, Post, Registration} from './pages/index.js'
+import {Blog, BookmarkedBlogs, EditBlog, Home, LikedBlogs, Login, Post, Profile, Registration} from './pages/index.js'
 
 
 const router = createBrowserRouter([
@@ -45,6 +45,10 @@ const router = createBrowserRouter([
       {
         path: '/editBlog',
         element: <EditBlog />
+      },
+      {
+        path: '/userProfile',
+        element: <Profile />
       }
     ]
   }

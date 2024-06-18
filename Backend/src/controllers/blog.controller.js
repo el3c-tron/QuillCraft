@@ -254,6 +254,7 @@ const blogComments = asyncHandler( async(req, res) => {
         }
     ]);
 
+
     return res
             .status(200).
             json(
@@ -261,6 +262,41 @@ const blogComments = asyncHandler( async(req, res) => {
             );
 
 } );
+
+const blogCommentsCount = asyncHandler(async (req, res) => {
+
+    const {id} = req.params;
+
+    const commentsArray = await Blog.aggregate([
+        {
+            $match: {
+                _id: new mongoose.Types.ObjectId(id)
+            }
+        },
+        {
+            $lookup:{
+                from: "comments",
+                localField: "_id",
+                foreignField: "blog",
+                as: "comments"
+            }
+        },
+        {
+            $project: {
+                comments: 1
+            }
+        }
+    ]);
+
+    const commentCount = commentsArray[0].comments.length
+
+    return res
+            .status(200).
+            json(
+                new ApiResponse(200, commentCount, "Commnets Count fetched Successfully")
+            );
+
+});
 
 const deleteBlog = asyncHandler( async(req, res) => {
 
@@ -307,4 +343,5 @@ export {
     getAllBlogs,
     blogComments,
     deleteBlog,
+    blogCommentsCount
 }

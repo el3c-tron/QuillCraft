@@ -231,6 +231,23 @@ const getCurrentUser = asyncHandler( async (req, res) => {
             );
 } );
 
+const getUserById = asyncHandler( async(req, res) => {
+    const {userId} = req.params;
+
+
+    const user = await User.findById(userId);
+
+    if(!user) {
+        return res
+                .status(404)
+                .json(new ApiError(404, "No User Found"))
+    }
+
+    return res
+            .status(200)
+            .json(new ApiResponse(200, user, "User Extracted"))
+} )
+
 const getUserBlogs = asyncHandler( async(req, res) => {
 
     const userId = req?.user._id;
@@ -412,4 +429,5 @@ export {
     getUserBookmarkedBlogs,
     getUserLikedBlogs,
     updateUserInfo,
+    getUserById
 };

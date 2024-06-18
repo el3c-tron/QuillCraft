@@ -69,7 +69,37 @@ const disliked = asyncHandler( async(req, res) => {
 
 } );
 
+const checkLike = asyncHandler( async(req, res) => {
+    const {blogId} = req.params;
+    const userId = req.user?._id;
+
+    if(!blogId || !userId) {
+        return res
+                .status(404)
+                .json(new ApiError(404, "Unauthorized Access"));
+    }
+
+    const likedDocument = await Like.findOne(
+        {
+            owner: new mongoose.Types.ObjectId(userId),
+            blog: new mongoose.Types.ObjectId(blogId)
+        }
+    );
+
+    if(!likedDocument) {
+        return res
+                .status(404)
+                .json(new ApiError(404, "Liked Not Found", {liked: false}))
+    }
+
+    return res
+            .status(200)
+            .json(new ApiResponse(200, {liked : true}, "liked" ))
+
+} )
+
 export {
     liked,
-    disliked
+    disliked,
+    checkLike
 }

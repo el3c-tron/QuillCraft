@@ -24,10 +24,10 @@ function Header() {
 
         <div className=' flex items-center w-[40%] justify-between pl-[3rem]  pr-[3rem] rounded-lg'>
 
-          <div className='stroke-[#eedcdc] stroke-1 h-fit w-fit cursor-pointer hover:stroke-white hover:drop-shadow-[0_0px_0.5px_rgba(255,255,255,1)] transition-all ease-in-out duration-200 '><Home /></div>
-          <div className='stroke-[#eedcdc] stroke-1 h-fit w-fit cursor-pointer hover:stroke-white hover:drop-shadow-[0_0px_0.5px_rgba(255,255,255,1)] transition-all ease-in-out duration-200 '><Bookmark /></div>
-          <div className='stroke-[#eedcdc] stroke-1 h-fit w-fit cursor-pointer hover:stroke-white hover:drop-shadow-[0_0px_0.5px_rgba(255,255,255,1)] transition-all ease-in-out duration-200 '><Like /></div>
-          <div className='stroke-[#eedcdc] stroke-1 h-fit w-fit cursor-pointer hover:stroke-white hover:drop-shadow-[0_0px_0.5px_rgba(255,255,255,1)] transition-all ease-in-out duration-200 '><Add /></div>
+          <div className='stroke-[#eedcdc] stroke-1 fill-none h-fit w-fit cursor-pointer hover:stroke-white hover:drop-shadow-[0_0px_0.5px_rgba(255,255,255,1)] transition-all ease-in-out duration-200 '><Home /></div>
+          <div className='stroke-[#eedcdc] stroke-1 fill-none h-fit w-fit cursor-pointer hover:stroke-white hover:drop-shadow-[0_0px_0.5px_rgba(255,255,255,1)] transition-all ease-in-out duration-200 '><Bookmark /></div>
+          <div className='stroke-[#eedcdc] stroke-1 fill-none h-fit w-fit cursor-pointer hover:stroke-white hover:drop-shadow-[0_0px_0.5px_rgba(255,255,255,1)] transition-all ease-in-out duration-200 '><Like /></div>
+          <div className='stroke-[#eedcdc] stroke-1 fill-none h-fit w-fit cursor-pointer hover:stroke-white hover:drop-shadow-[0_0px_0.5px_rgba(255,255,255,1)] transition-all ease-in-out duration-200 '><Add /></div>
          
 
         </div>

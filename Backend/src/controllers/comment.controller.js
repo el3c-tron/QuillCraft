@@ -17,7 +17,7 @@ const postComment = asyncHandler( async(req, res) => {
     }
     // if(!userId || !blogId) throw new ApiError(402, "commentController :: postComment :: Unauthorized");
 
-    if(content.trin() === "") {
+    if(content.trim() === "") {
         return res
                 .status(400)
                 .json(new ApiError(400, "Content Required"));

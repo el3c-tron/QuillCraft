@@ -2,18 +2,25 @@ import axios from 'axios';
 import React from 'react'
 import { useDispatch } from 'react-redux';
 import {login, logout} from '../../store/authSlice.js'
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 function LogoutBtn() {
 
   const dispatch = useDispatch()
-  
+  const navigate = useNavigate();
+
   const userLogout = (e) => {
     e.preventDefault();
     axios.post('/api/v1/user/logout')
       .then((response)=>{
         dispatch(logout());
+        toast.success('LoggedOut Successfully')
+        navigate('/')
+        
       })
       .catch((error) => {
+        toast.error('Error while Logging Out')
         console.log(error);
       })
   }

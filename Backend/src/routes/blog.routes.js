@@ -6,7 +6,8 @@ import {
     getBlogById, 
     getAllBlogs,
     blogComments,
-    deleteBlog
+    deleteBlog,
+    blogCommentsCount
 } from "../controllers/blog.controller.js";
 import {verifyJWT} from "../middlewares/auth.middleware.js"
 import {upload} from "../middlewares/multer.middleware.js"
@@ -32,6 +33,8 @@ router.route("/getBlogById/:id").get(verifyJWT, getBlogById);
 router.route("/getAllBlogs").get(getAllBlogs);
 
 router.route("/blogComments/:id").get(verifyJWT, blogComments);
+
+router.route("/blogCommentsCount/:id").get(blogCommentsCount)
 
 router.route("/deleteBlog/:id").post(verifyJWT, deleteBlog);
 

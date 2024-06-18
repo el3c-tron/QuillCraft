@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from 'axios'
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {login, logout} from './store/authSlice.js'
 import { 
   LoginForm, 
@@ -15,7 +15,8 @@ import { Outlet } from "react-router-dom";
 function App() {
 
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const authStatus = useSelector((state) => state.auth.status);
 
   useEffect(() =>{
 
@@ -32,7 +33,10 @@ function App() {
       .catch((error) => {
         dispatch(logout());
       })
-      .finally(() => setLoading(false))
+      .finally(setLoading(false))
+      
+      
+      
 
 
   }, []);

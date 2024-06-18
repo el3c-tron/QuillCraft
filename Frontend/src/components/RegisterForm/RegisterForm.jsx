@@ -76,9 +76,11 @@ function RegisterForm() {
                 
                 <div className='w-fit h-fit p-10 flex flex-col items-center shadow-[0px_0px_20px_10px_rgba(0,0,0,0.3)] rounded-lg'>
 
-                    <div className='flex cursor-pointer w-fit'>
-                        <Logo />
-                    </div>
+                    <Link to={'/'}>
+                        <div className='flex cursor-pointer w-fit'>
+                            <Logo />
+                        </div>
+                    </Link>
 
                     <div className='w-auto h-auto rounded-md mb-4 mt-8'>
                         <input 

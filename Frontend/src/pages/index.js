@@ -6,6 +6,7 @@ import LikedBlogs from './LikedBlogs'
 import Login from './Login'
 import Post from './Post'
 import Registration from './Registration'
+import Profile from './Profile'
 
 
 export {
@@ -16,5 +17,6 @@ export {
     LikedBlogs,
     Login,
     Post,
-    Registration
+    Registration,
+    Profile
 }
