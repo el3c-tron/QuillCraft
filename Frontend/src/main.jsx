@@ -28,27 +28,51 @@ const router = createBrowserRouter([
       },
       {
         path: '/post',
-        element:  <Post />
+        element:(
+          <AuthLayout authentication={true}>
+            <Post />
+          </AuthLayout>
+        )
       },
       {
         path: '/likedBlogs',
-        element:  <LikedBlogs />
+        element:  (
+          <AuthLayout authentication = {true}>
+            <LikedBlogs />
+          </AuthLayout>
+        )
       },
       {
         path: '/bookmarkedBlogs',
-        element: <BookmarkedBlogs />
+        element: (
+          <AuthLayout authentication = {true}>
+            <BookmarkedBlogs />
+          </AuthLayout>
+        )
       },
       {
         path: '/blog/:blogId',
-        element: <Blog />
+        element: (
+          <AuthLayout authentication = {true}>
+            <Blog />
+          </AuthLayout>
+        )
       },
       {
         path: '/editBlog/:blogId',
-        element: <EditBlog />
+        element: (
+          <AuthLayout authentication = {true}>
+            <EditBlog />
+          </AuthLayout>
+        )
       },
       {
         path: '/userProfile/:userId',
-        element: <Profile />
+        element: (
+          <AuthLayout authentication = {true}>
+            <Profile />
+          </AuthLayout>
+        )
       }
     ]
   }

@@ -31,7 +31,6 @@ function LoginForm() {
             .then((response) => {
                 const userData = response.data.data;
                 if(userData) {
-                    console.log(userData);
                     dispatch(login({userData}));
                     toast.success(response.data.message);
                     navigate('/');

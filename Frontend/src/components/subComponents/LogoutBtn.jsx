@@ -14,10 +14,10 @@ function LogoutBtn() {
     e.preventDefault();
     axios.post('/api/v1/user/logout')
       .then((response)=>{
-        dispatch(logout());
         toast.success('LoggedOut Successfully')
+        console.log("HELLO");
         navigate('/')
-        
+        dispatch(logout());
       })
       .catch((error) => {
         toast.error('Error while Logging Out')

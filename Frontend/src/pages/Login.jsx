@@ -6,14 +6,6 @@ import { toast } from 'sonner';
 
 function Login() {
 
-  const authStatus = useSelector((state) => state.auth.status);
-  const navigate = useNavigate();
-
-  if(authStatus) {
-    toast.error("You are already loggedIn")
-    navigate('/');
-  }
-
   return (
     <>
       <LoginForm />

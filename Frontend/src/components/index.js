@@ -9,6 +9,7 @@ import ProfileBtn from './subComponents/ProfileBtn.jsx'
 import LoginForm from './LoginForm/LoginForm.jsx'
 import RegisterForm from './RegisterForm/RegisterForm.jsx'
 import BlogCard from './BlogCard/BlogCard.jsx'
+import PostForm from './PostForm/PostForm.jsx'
 
 export {
     Header,
@@ -21,5 +22,6 @@ export {
     ProfileBtn,
     LoginForm,
     RegisterForm,
-    BlogCard
+    BlogCard,
+    PostForm
 }
