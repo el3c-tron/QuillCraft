@@ -7,7 +7,7 @@ import store from './store/store.js'
 import {Toaster} from 'sonner'
 import {RouterProvider, createBrowserRouter} from 'react-router-dom'
 import {Blog, BookmarkedBlogs, EditBlog, Home, LikedBlogs, Login, Post, Profile, Registration} from './pages/index.js'
-
+import AuthLayout from './authentication/AuthLayout.jsx'
 
 const router = createBrowserRouter([
   {
@@ -28,26 +28,26 @@ const router = createBrowserRouter([
       },
       {
         path: '/post',
-        element: <Post />
+        element:  <Post />
       },
       {
         path: '/likedBlogs',
-        element: <LikedBlogs />
+        element:  <LikedBlogs />
       },
       {
         path: '/bookmarkedBlogs',
         element: <BookmarkedBlogs />
       },
       {
-        path: '/blog',
+        path: '/blog/:blogId',
         element: <Blog />
       },
       {
-        path: '/editBlog',
+        path: '/editBlog/:blogId',
         element: <EditBlog />
       },
       {
-        path: '/userProfile',
+        path: '/userProfile/:userId',
         element: <Profile />
       }
     ]

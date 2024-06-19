@@ -17,7 +17,6 @@ function App() {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const authStatus = useSelector((state) => state.auth.status);
-
   useEffect(() =>{
 
     axios.get("/api/v1/user/getCurrentUser")
@@ -34,8 +33,6 @@ function App() {
         dispatch(logout());
       })
       .finally(setLoading(false))
-      
-      
       
 
 

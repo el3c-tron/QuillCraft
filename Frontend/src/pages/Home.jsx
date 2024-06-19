@@ -3,22 +3,12 @@ import { BlogCard, Header, Loader } from '../components'
 import axios from 'axios'
 import { toast } from 'sonner'
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 function Home() {
 
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
-
-
-  // axios.get('/api/v1/blog/getAllBlogs')
-  //   .then((response) => {
-  //     console.log(response);
-  //     setBlogs(response.data.data);
-  //   })
-  //   .catch((error) => {
-  //     toast.error("Failed To Fetch Blogs");
-  //     console.log(error);
-  //   });
 
   useEffect(() =>{
 
@@ -30,14 +20,17 @@ function Home() {
       toast.error("Failed To Fetch Blogs");
       console.log(error);
     })
-    .finally(setLoading(false));
 
   }, []);
+
+  setTimeout(() => {
+    setLoading(false);
+  }, 1000)
 
   return loading ? (<Loader />) : (
     <>
       <Header />
-      {loading ? (<Loader />) : (<div className='flex flex-col items-center h-auto w-full mt-[5rem] pt-8 pb-8'>
+      <div className='flex flex-col items-center h-auto w-full mt-[5rem] pt-8 pb-8'>
         
         {
           blogs?.map((blog) => (
@@ -51,9 +44,8 @@ function Home() {
             />
           ))
         }
-        
 
-      </div>)}
+      </div>
     </>
   )
 }

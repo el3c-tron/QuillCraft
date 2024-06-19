@@ -1,8 +1,11 @@
 import React from 'react'
+import { Header } from '../components'
 
 function BookmarkedBlogs() {
   return (
-    <div>BookmarkedBlogs</div>
+    <>
+      <Header />
+    </>
   )
 }
 
