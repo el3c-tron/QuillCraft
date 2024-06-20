@@ -1,13 +1,164 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {Editor} from '@tinymce/tinymce-react'
+import parse from 'html-react-parser';
+import FileInput from '../Svgs/FileInput';
+import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-function PostForm() {
+function PostForm({blog}) {
 
-    
+    const [content, setContent] = useState((blog) ? blog.content : "");
+    const [imageFile, setImageFile] = useState((blog) ? blog.coverImage : "");
+    const [title, setTitle] = useState((blog) ? blog.title : "");
+    const defaultValue = (blog) ? blog.content : "";
+    const navigate = useNavigate();
+
+    const postBlog = async(e) => {
+        e.preventDefault();
+
+        if(!title) {
+            toast.error("Title is required");
+            return;
+        }
+
+        else if(!content) {
+            toast.error("Content is required");
+            return;
+        }
+
+        else if(!imageFile) {
+            toast.error("Cover Image is required");
+            return;
+        }
+
+        const formData = new FormData();
+
+        console.log(imageFile);
+
+        formData.append('coverImage', imageFile);
+        formData.append('title', title);
+        formData.append('content', content);
+
+        if(blog) {
+
+            axios.post(`/api/v1/blog/editBlog/${blog._id}`, formData)
+                .then((response) => {
+                    const updatedBlogData = response.data.data;
+                    console.log(updatedBlogData);
+                    toast.success("Blog Edited Successfully");
+                    navigate('/')
+                })
+                .catch((error) => {
+                    console.log(error);
+                    toast.error("Error while Updating Blog !!")
+                })
+            return;
+
+        }
+        else {
+            axios.post('/api/v1/blog/createNewBlog', formData)
+                .then((response) => {
+                    const BlogData = response.data.data;
+                    console.log(BlogData);
+                    toast.success("Blog Created Successfully");
+                    navigate('/')
+                })
+                .catch((error) => {
+                    console.log(error);
+                    toast.error("Error while Creating Blog !!")
+                })
+        }
+    }
 
     return (
         <>
-            <Editor apiKey='yem7l552lk4l7pi3uu2w6o1m4wzqqehxkmwwciho7uqt2gzg' />
+            
+            <div className=' border-white flex flex-col items-center h-auto w-[100%] mt-10 pt-4 pb-4 justify-center'>
+
+                <div className='border-2 mt-[2rem] h-[60px] w-[75%] rounded-lg text-[#121212]'>
+                    <input 
+                        type='text'
+                        className='h-full w-full outline-none rounded-lg pl-4 font-semibold placeholder:tracking-widest'
+                        placeholder='Title'
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
+                </div>
+
+
+                <div className='mt-[4rem]'>
+
+                    <label htmlFor='file' className='flex flex-col justify-center w-[250px] h-[190px]  border-dashed border-2 border-[#fff] items-center text-center p-[5px] color-[#1a1a1a] cursor-pointer'>
+                        <FileInput />
+                        <p className='pt-6'>{(imageFile === "") ? 'drag and drop your file here or click to select a file!' : imageFile.name}</p>
+                        
+                    </label>
+
+                    <input 
+                        type = 'file'
+                        id='file'
+                        className='max-w-[190px] hidden'
+                        onChange={(e) => setImageFile(e.target.files[0])}
+                    />
+                    
+                </div>
+
+                <div className='mt-[4rem]'>
+                    <Editor
+                        apiKey='yem7l552lk4l7pi3uu2w6o1m4wzqqehxkmwwciho7uqt2gzg'
+                        initialValue={defaultValue}
+                        init={{
+                            initialValue: defaultValue,
+                            height: 500,
+                            menubar: true,
+                            plugins: [
+                                "image",
+                                "advlist",
+                                "autolink",
+                                "lists",
+                                "link",
+                                "image",
+                                "charmap",
+                                "preview",
+                                "anchor",
+                                "searchreplace",
+                                "visualblocks",
+                                "code",
+                                "fullscreen",
+                                "insertdatetime",
+                                "media",
+                                "table",
+                                "code",
+                                "help",
+                                "wordcount",
+                                "anchor",
+                            ],
+                            toolbar:
+                            "undo redo | blocks | image | bold italic forecolor | alignleft aligncenter bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent |removeformat | help",
+                            content_style: "body { font-family:Poppins,sans-serif; font-size:14px }"
+                        }}
+                        onEditorChange={
+                            (newValue , editor) => {
+                                setContent(newValue);
+                            }
+                        }
+                    />
+                </div>
+
+                <div className='rounded-md tracking-widest font-[400] w-[75%] h-[50px] flex mt-[4rem] justify-center shadow-[0px_0px_10px_5px_rgba(0,0,0,0.2)]'>
+                    <button 
+                        className='rounded-md w-full h-full bg-gradient-to-r from-[#f3d8d8] via-[#c56da9] to-[#9b16b6]'
+                        onClick={postBlog}
+                    >
+                        POST
+                    </button>
+                </div>
+
+                
+            </div>
+
+            
         </>
     )
 }

@@ -7,7 +7,7 @@ function Post() {
 
   return (
     <>
-      {/* <Header /> */}
+      <Header />
       <PostForm />
     </>
   )

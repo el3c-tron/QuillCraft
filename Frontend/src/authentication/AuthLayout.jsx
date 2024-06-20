@@ -14,11 +14,10 @@ function AuthLayout({children, authentication = true}) {
     useEffect(() => {
         
         console.log(authStatus);
-        if(authStatus === false) {
+        if(authStatus === null) {
             setTimeout(() => {<Loader />}, 1000);
         }
         else if(authStatus !== authentication && authentication){
-            console.log("h1");
             navigate("/login")
         }
         setLoading(false)

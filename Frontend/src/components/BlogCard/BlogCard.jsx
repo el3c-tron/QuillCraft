@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import {toast} from 'sonner'
 import { useNavigate } from 'react-router-dom';
+import parse from 'html-react-parser'
 
 
 function BlogCard({heading, content, blogId, coverImage, ownerId}) {
@@ -153,7 +154,7 @@ function BlogCard({heading, content, blogId, coverImage, ownerId}) {
                     </div>
                     <div className='mt-4 h-[30%]'>
                         <p className=' pl-3 font-[300] text-sm h-full pr-3 text-[#F1D4D4] text-wrap truncate ...'>
-                            {content}
+                            {parse(content)}
                         </p>
                     </div>
                     <div className='ml-3 mt-1 h-fit w-fit '>

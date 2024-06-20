@@ -10,6 +10,7 @@ import LoginForm from './LoginForm/LoginForm.jsx'
 import RegisterForm from './RegisterForm/RegisterForm.jsx'
 import BlogCard from './BlogCard/BlogCard.jsx'
 import PostForm from './PostForm/PostForm.jsx'
+import FileInput from './Svgs/FileInput.jsx'
 
 export {
     Header,
@@ -23,5 +24,6 @@ export {
     LoginForm,
     RegisterForm,
     BlogCard,
-    PostForm
+    PostForm,
+    FileInput
 }
