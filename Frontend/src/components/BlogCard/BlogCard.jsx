@@ -181,16 +181,16 @@ function BlogCard({heading, content, blogId, coverImage, ownerId}) {
                         
                     </div>
                 </div>
-                <div className='w-[40%] h-full flex'>
+                <div className='w-[40%] h-full relative'>
                     <img 
                     src={coverImage} 
                     alt="Pic" 
-                    className='box opacity-50 blur-[2px] w-full h-full bg-no-repeat bg-center bg-cover rounded-lg'
+                    className='relative opacity-50 blur-[2px] w-full h-full bg-no-repeat bg-center bg-cover rounded-lg'
                     />
                     <img 
                     src={coverImage} 
                     alt="Pic" 
-                    className='scale-75 translate-x-[-21.1rem] bg-center bg-cover rounded-md bg-no-repeat'
+                    className=' scale-75 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-full h-full bg-no-repeat bg-center bg-cover rounded-lg'
                     />
                 </div>
             </div>

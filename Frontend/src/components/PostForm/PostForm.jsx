@@ -5,42 +5,47 @@ import FileInput from '../Svgs/FileInput';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Spinner from '../Svgs/Spinner.jsx'
 
 function PostForm({blog}) {
 
+    const [loading, setLoading] = useState(false);
     const [content, setContent] = useState((blog) ? blog.content : "");
     const [imageFile, setImageFile] = useState((blog) ? blog.coverImage : "");
     const [title, setTitle] = useState((blog) ? blog.title : "");
     const defaultValue = (blog) ? blog.content : "";
     const navigate = useNavigate();
 
-    const postBlog = async(e) => {
-        e.preventDefault();
+    const postBlog = () => {
 
+        setLoading((prev) => !prev);
         if(!title) {
             toast.error("Title is required");
+            setLoading(false);
             return;
         }
 
         else if(!content) {
             toast.error("Content is required");
+            setLoading(false);
             return;
         }
 
         else if(!imageFile) {
             toast.error("Cover Image is required");
+            setLoading(false);
             return;
         }
 
         const formData = new FormData();
-
-        console.log(imageFile);
 
         formData.append('coverImage', imageFile);
         formData.append('title', title);
         formData.append('content', content);
 
         if(blog) {
+            toast.info("Updating Blog Please Wait");
+
 
             axios.post(`/api/v1/blog/editBlog/${blog._id}`, formData)
                 .then((response) => {
@@ -53,10 +58,14 @@ function PostForm({blog}) {
                     console.log(error);
                     toast.error("Error while Updating Blog !!")
                 })
+                // .finally(setLoading(false))
+
             return;
 
         }
         else {
+            toast.info("Posting Blog Please Wait");
+
             axios.post('/api/v1/blog/createNewBlog', formData)
                 .then((response) => {
                     const BlogData = response.data.data;
@@ -68,6 +77,7 @@ function PostForm({blog}) {
                     console.log(error);
                     toast.error("Error while Creating Blog !!")
                 })
+                // .finally(setLoading(false))
         }
     }
 
@@ -147,12 +157,26 @@ function PostForm({blog}) {
                 </div>
 
                 <div className='rounded-md tracking-widest font-[400] w-[75%] h-[50px] flex mt-[4rem] justify-center shadow-[0px_0px_10px_5px_rgba(0,0,0,0.2)]'>
-                    <button 
-                        className='rounded-md w-full h-full bg-gradient-to-r from-[#f3d8d8] via-[#c56da9] to-[#9b16b6]'
-                        onClick={postBlog}
-                    >
-                        POST
-                    </button>
+                    {
+                        (loading) ? (
+                        <div className='w-full h-full flex justify-center items-center bg-gradient-to-r from-[#f3d8d8] via-[#c56da9] to-[#9b16b6] rounded-md'>
+                            <Spinner />
+                        </div>
+                    
+                    ) : (
+
+                            <button 
+                                className='rounded-md w-full h-full bg-gradient-to-r from-[#f3d8d8] via-[#c56da9] to-[#9b16b6]'
+                                onClick={postBlog}
+                                disabled = {loading}
+                            >
+                                {(loading) ? 'LOADING' : "POST"}
+                            </button>
+                        )
+                    }
+                    
+                    
+                    
                 </div>
 
                 

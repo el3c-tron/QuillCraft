@@ -56,7 +56,7 @@ function LoginForm() {
 
                     <Link to={'/'}>
                         <div className='flex cursor-pointer w-fit'>
-                            <Logo />
+                            <Logo size={40}/>
                         </div>
                     </Link>
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { BlogCard, Header, Loader } from '../components'
+import { BlogCard, Footer, Header, Loader } from '../components'
 import axios from 'axios'
 import { toast } from 'sonner'
 import { useSelector } from 'react-redux';
@@ -46,6 +46,8 @@ function Home() {
         }
 
       </div>
+
+      <Footer />
     </>
   )
 }

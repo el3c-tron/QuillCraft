@@ -1,10 +1,11 @@
 import React from 'react'
-import { Header } from '../components'
+import { Footer, Header } from '../components'
 
 function LikedBlogs() {
   return (
     <>
       <Header />
+      <Footer />
     </>
   )
 }

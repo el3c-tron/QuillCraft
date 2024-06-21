@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Header, PostForm } from '../components'
+import { Footer, Header, PostForm } from '../components'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux';
 
@@ -9,6 +9,7 @@ function Post() {
     <>
       <Header />
       <PostForm />
+      <Footer />
     </>
   )
 }
