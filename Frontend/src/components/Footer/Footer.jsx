@@ -13,17 +13,17 @@ function Footer() {
         <div className='h-fit w-[60%] flex ml-[5rem]'>
           <div className='h-fit flex items-center w-full'>
             <Link to={'https://github.com/el3c-tron'} target='_blank'>
-              <div className='fill-none stroke-white stroke-[8] p-2 ml-10 opacity-40 hover:opacity-100 hover:stroke-[#db76f0] hover:stroke-[10] transition-all ease-in-out duration-200 cursor-pointer'>
+              <div className='fill-none stroke-white stroke-[8] p-2 ml-10 opacity-40 hover:opacity-100 hover:stroke-white hover:stroke-[10] transition-all ease-in-out duration-200 cursor-pointer'>
                 <Github />
               </div>
             </Link>
             <Link to={'https://www.linkedin.com/in/aniket-kumar-421891247/'} target='_blank'>
-              <div className='fill-none stroke-white opacity-40 stroke-[10] p-2 ml-10 hover:opacity-100 hover:stroke-[#0077b5] hover:stroke-[12] transition-all ease-in-out duration-200 cursor-pointer'>
+              <div className='fill-none stroke-white opacity-40 stroke-[10] p-2 ml-10 hover:opacity-100 hover:stroke-white hover:stroke-[12] transition-all ease-in-out duration-200 cursor-pointer'>
                 <LinkedIn />
               </div>
             </Link>
 
-            <div className='fill-none stroke-white stroke-[1.5] opacity-40 p-2 ml-10 hover:opacity-100 hover:stroke-[#C060A1] transition-all ease-in-out duration-200 cursor-pointer'>
+            <div className='fill-none stroke-white stroke-[1.5] opacity-40 p-2 ml-10 hover:opacity-100 hover:stroke-white transition-all ease-in-out duration-200 cursor-pointer'>
               <Resume />
             </div>
           </div>
@@ -31,7 +31,7 @@ function Footer() {
         <div className='w-[40%] flex flex-col justify-center items-center'>
           <Link to={'/'} >
               <div className='flex'>
-                <Logo size={20} />
+                <Logo size={'small'} />
               </div>
           </Link>
           <span className='flex text-xs tracking-widest text-[#b3b3b3] opacity-30'>

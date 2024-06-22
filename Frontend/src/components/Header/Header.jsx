@@ -23,7 +23,7 @@ function Header() {
 
           <Link to={'/'}>
             <div className="flex w-fit ml-3 cursor-pointer">
-              <Logo size={40} />
+              <Logo size={'big'} />
             </div>
           </Link>
 

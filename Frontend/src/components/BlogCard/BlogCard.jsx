@@ -153,9 +153,9 @@ function BlogCard({heading, content, blogId, coverImage, ownerId}) {
                         </p>
                     </div>
                     <div className='mt-4 h-[30%]'>
-                        <p className=' pl-3 font-[300] text-sm h-full pr-3 text-[#F1D4D4] text-wrap truncate ...'>
+                        <div className=' pl-3 font-[300] text-sm h-full pr-3 text-[#F1D4D4]'>
                             {parse(content)}
-                        </p>
+                        </div>
                     </div>
                     <div className='ml-3 mt-1 h-fit w-fit '>
                         <button className='text-sm h-full w-full text-transparent bg-clip-text bg-gradient-to-r from-[#F1D4D4] via-[#C060A1] to-[#8c14a4]'>
@@ -174,9 +174,9 @@ function BlogCard({heading, content, blogId, coverImage, ownerId}) {
                         </div>
                         <div className='stroke-[#0099ff] fill-none stroke-1 h-fit w-fit cursor-pointer flex'>
                             <Comment />
-                            <p className='pl-3'>
+                            <span className='pl-3'>
                                 {commentCount}
-                            </p>
+                            </span>
                         </div>
                         
                     </div>
