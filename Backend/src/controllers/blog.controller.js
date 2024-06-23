@@ -14,8 +14,6 @@ const createNewBlog = asyncHandler( async (req, res) => {
     const owner = req.user?._id;
     const coverImageLocalPath = req.file?.path;
 
-    console.log(coverImageLocalPath);
-
     if(!owner) {
         return res
                 .status(404)

@@ -5,7 +5,7 @@ import Star from '../Svgs/Star'
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import {toast} from 'sonner'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import parse from 'html-react-parser'
 
 
@@ -63,21 +63,23 @@ function BlogCard({heading, content, blogId, coverImage, ownerId}) {
             setLike(false);
         }
 
-    }, [like, authStatus])
+    }, [authStatus])
 
-    // if(authStatus) {
-    //         axios.get(`/api/v1/like/checkLike/${blogId}`)
-    //             .then((response) => {
-    //                 console.log(response.data.data.liked);
-    //                 setLike(response.data.data.liked);
-    //             })
-    //             .catch((error) => {
-    //                 console.log(error);
-    //             })
-    //     }
-    //     else {
-    //         setLike(false);
-    //     }
+    useEffect(() => {
+        if (authStatus) {
+            axios.get(`/api/v1/bookmark/checkBookmark/${blogId}`)
+                .then((response) => {
+
+                    setBookmarked(response.data.data.bookmarked)
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
+        else {
+            setBookmarked(false);
+        }
+    }, [authStatus])
 
     const handleLike = () => {
 
@@ -90,6 +92,7 @@ function BlogCard({heading, content, blogId, coverImage, ownerId}) {
         if(like) {
             axios.post(`/api/v1/like/disliked/${blogId}`)
                 .then((response) => {
+                    setLikeCount((prev) => (prev-1));
                     setLike(false);
                 })
                 .catch((error) => {
@@ -100,6 +103,7 @@ function BlogCard({heading, content, blogId, coverImage, ownerId}) {
         else {
             axios.post(`/api/v1/like/liked/${blogId}`)
                 .then((response) => {
+                    setLikeCount((prev) => (prev+1));
                     setLike(true);
                 })
                 .catch((error) => {
@@ -158,9 +162,11 @@ function BlogCard({heading, content, blogId, coverImage, ownerId}) {
                         </div>
                     </div>
                     <div className='ml-3 mt-1 h-fit w-fit '>
-                        <button className='text-sm h-full w-full text-transparent bg-clip-text bg-gradient-to-r from-[#F1D4D4] via-[#C060A1] to-[#8c14a4]'>
-                            read more
-                        </button>
+                        <Link to={`/blog/${blogId}`}>
+                            <button className='text-sm h-full w-full text-transparent bg-clip-text bg-gradient-to-r from-[#F1D4D4] via-[#C060A1] to-[#8c14a4]'>
+                                read more
+                            </button>
+                        </Link>
                     </div>
                     <div className='mt-2 flex h-[18%] items-center justify-around'>
                         <div onClick={handleLike} className={` stroke-[#ff0000] ${(like) ? 'fill-[#ff0000] stroke-none' : 'fill-none'} stroke-1 h-fit w-fit cursor-pointer flex`}>

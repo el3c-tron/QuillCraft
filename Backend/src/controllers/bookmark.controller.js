@@ -64,7 +64,37 @@ const bookmarkDisable = asyncHandler( async(req, res) => {
 
 } );
 
+const checkBookmark = asyncHandler( async(req, res) => {
+    const {blogId} = req.params;
+    const userId = req.user?._id;
+
+    if(!blogId || !userId) {
+        return res
+                .status(404)
+                .json(new ApiError(404, "Unauthorized Access"));
+    }
+
+    const bookmarkDocument = await Bookmark.findOne(
+        {
+            owner: new mongoose.Types.ObjectId(userId),
+            blog: new mongoose.Types.ObjectId(blogId)
+        }
+    )
+
+    if(!bookmarkDocument) {
+        return res
+                .status(404)
+                .json(new ApiError(404, "Bookmark Not Found", {bookmarked: false}))
+    }
+
+    return res
+            .status(200)
+            .json(new ApiResponse(200, {bookmarked : true}, "bookmarked" ))
+
+});
+
 export {
     bookmarkEnable,
-    bookmarkDisable
+    bookmarkDisable,
+    checkBookmark
 }

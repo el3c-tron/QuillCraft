@@ -13,7 +13,6 @@ function AuthLayout({children, authentication = true}) {
 
     useEffect(() => {
         
-        console.log(authStatus);
         if(authStatus === null) {
             setTimeout(() => {<Loader />}, 1000);
         }
