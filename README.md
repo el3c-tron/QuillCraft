@@ -48,3 +48,28 @@ const getdata = (e) => {
           <button >Click</button>
 
         </form>
+
+<!-- LIkE and Bookmark button on blog page -->
+
+<div className='border-2 p-4 flex '>
+        <div className='p-2 w-fit'>
+          <button className='flex pt-2 pb-2 pl-4 pr-4 rounded-lg shadow-[0px_0px_10px_5px_rgba(0,0,0,.5)] hover:shadow-[0px_0px_10px_5px_rgba(0,0,0,.3)] transition-all ease-in-out duration-500'>
+            <div className={`stroke-[#ff0000] stroke-2 ${like ? 'fill-[#ff0000] ' : 'fill-none'}`}>
+              <Like />
+            </div>
+            <span className='tracking-widest text-[0.94rem] ml-2 '>
+              {likesCount}
+            </span>
+          </button>
+
+        </div>
+
+        <div className='p-2 w-fit'>
+          <button className='flex p-2 rounded-lg shadow-[0px_0px_10px_5px_rgba(0,0,0,.5)] hover:shadow-[0px_0px_10px_5px_rgba(0,0,0,.3)] transition-all ease-in-out duration-500'>
+            <div className={`stroke-[#ffff00] stroke-2 ${like ? 'fill-[#ffff00] ' : 'fill-none'}`}>
+              <Star />
+            </div>
+          </button>
+
+        </div>
+      </div>

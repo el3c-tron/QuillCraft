@@ -156,7 +156,7 @@ function PostForm({blog}) {
                     />
                 </div>
 
-                <div className='rounded-md tracking-widest font-[400] w-[75%] h-[50px] flex mt-[4rem] justify-center shadow-[0px_0px_10px_5px_rgba(0,0,0,0.2)]'>
+                <div className='rounded-md tracking-widest font-[400] w-[75%] h-[50px] flex mt-[4rem] mb-[4rem] justify-center shadow-[0px_0px_10px_5px_rgba(0,0,0,0.2)]'>
                     {
                         (loading) ? (
                         <div className='w-full h-full flex justify-center items-center bg-gradient-to-r from-[#f3d8d8] via-[#c56da9] to-[#9b16b6] rounded-md'>
@@ -170,7 +170,7 @@ function PostForm({blog}) {
                                 onClick={postBlog}
                                 disabled = {loading}
                             >
-                                {(loading) ? 'LOADING' : "POST"}
+                                {(blog) ? "UPDATE" : "POST"}
                             </button>
                         )
                     }

@@ -156,7 +156,7 @@ function BlogCard({heading, content, blogId, coverImage, ownerId}) {
                             @{username}
                         </p>
                     </div>
-                    <div className='mt-4 h-[30%]'>
+                    <div className='mt-4 h-[30%] overflow-hidden'>
                         <div className=' pl-3 font-[300] text-sm h-full pr-3 text-[#F1D4D4]'>
                             {parse(content)}
                         </div>
