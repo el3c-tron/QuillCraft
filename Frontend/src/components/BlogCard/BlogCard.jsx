@@ -63,7 +63,7 @@ function BlogCard({heading, content, blogId, coverImage, ownerId}) {
             setLike(false);
         }
 
-    }, [authStatus])
+    }, [authStatus, like])
 
     useEffect(() => {
         if (authStatus) {
@@ -79,7 +79,7 @@ function BlogCard({heading, content, blogId, coverImage, ownerId}) {
         else {
             setBookmarked(false);
         }
-    }, [authStatus])
+    }, [authStatus, bookmarked])
 
     const handleLike = () => {
 
@@ -169,16 +169,16 @@ function BlogCard({heading, content, blogId, coverImage, ownerId}) {
                         </Link>
                     </div>
                     <div className='mt-2 flex h-[18%] items-center justify-around'>
-                        <div onClick={handleLike} className={` stroke-[#ff0000] ${(like) ? 'fill-[#ff0000] stroke-none' : 'fill-none'} stroke-1 h-fit w-fit cursor-pointer flex`}>
+                        <div onClick={handleLike} className={` hover:drop-shadow-[0_0px_0.5px_rgba(255,0,0,1)] stroke-[#ff0000] ${(like) ? 'fill-[#ff0000] stroke-none' : 'fill-none'} stroke-1 h-fit w-fit cursor-pointer flex transition-all ease-in-out duration-300`}>
                             <Like />
                             <p className='pl-3'>
                                 {likeCount}
                             </p>
                         </div>
-                        <div onClick={handleBookmark} className={`stroke-[#ffff00] ${(bookmarked) ? 'fill-[#ffff00] stroke-none' : "fill-none"}  stroke-1 h-fit w-fit cursor-pointer`}>
+                        <div onClick={handleBookmark} className={`hover:drop-shadow-[0_0px_0.5px_rgba(255,255,0,1)] stroke-[#ffff00] ${(bookmarked) ? 'fill-[#ffff00] stroke-none' : "fill-none"}  stroke-1 h-fit w-fit cursor-pointer transition-all ease-in-out duration-300`}>
                             <Star />
                         </div>
-                        <div className='stroke-[#0099ff] fill-none stroke-1 h-fit w-fit cursor-pointer flex'>
+                        <div className='hover:drop-shadow-[0_0px_0.5px_rgba(0,153,255,1)] stroke-[#0099ff] fill-none stroke-1 h-fit w-fit cursor-pointer flex transition-all ease-in-out duration-300'>
                             <Comment />
                             <span className='pl-3'>
                                 {commentCount}

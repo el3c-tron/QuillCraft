@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Footer, Header, Loader } from '../components'
+import { Comments, Footer, Header, Loader } from '../components'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios';
 import { toast } from 'sonner';
@@ -7,6 +7,8 @@ import parse from 'html-react-parser'
 import Like from '../components/Svgs/Like';
 import Bookmark from '../components/Svgs/Bookmark';
 import Star from '../components/Svgs/Star';
+import { useSelector } from 'react-redux';
+import Delete from '../components/Svgs/Delete';
 
 function Blog() {
 
@@ -17,10 +19,13 @@ function Blog() {
   const [username, setUsername] = useState("username");
   const [commentCount, setCommentCount] = useState(0);
   const [comments, setComments] = useState([]);
+  const [commentContent, setCommentContent] = useState("");
   const [likesCount, setLikesCount] = useState(0);
   const [like, setLike] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
   const [fullTimeInfo, setFullTimeInfo] = useState("");
+
+  const userData = useSelector((state) => state.auth.userData);
 
 
   const navigate = useNavigate();
@@ -106,7 +111,7 @@ function Blog() {
       .catch((error) => {
         console.log(error);
       })
-  }, [])
+  }, [like])
 
   useEffect(() => {
     axios.get(`/api/v1/bookmark/checkBookmark/${blogId}`)
@@ -116,7 +121,94 @@ function Blog() {
         .catch((error) => {
           console.log(error);
         })
-    }, [])
+  }, [bookmarked])
+
+  const handleLike = () => {
+    if(like) {
+        axios.post(`/api/v1/like/disliked/${blogId}`)
+            .then((response) => {
+                setLikesCount((prev) => (prev-1));
+                setLike(false);
+            })
+            .catch((error) => {
+                setLike(true);
+                console.log(error);
+            })
+    }
+    else {
+        axios.post(`/api/v1/like/liked/${blogId}`)
+            .then((response) => {
+                setLikesCount((prev) => (prev+1));
+                setLike(true);
+            })
+            .catch((error) => {
+                setLike(false);
+                console.log(error);
+            })
+    }
+
+  }
+
+  const handleBookmark = () => {
+    if(bookmarked) {
+        axios.post(`/api/v1/bookmark/bookmarkDisable/${blogId}`)
+            .then((response) => {
+                setBookmarked(false);
+            })
+            .catch((error) => {
+                setBookmarked(true);
+                console.log(error);
+            })
+    }
+    else {
+        axios.post(`/api/v1/bookmark/bookmarkEnable/${blogId}`)
+            .then((response) => {
+                setBookmarked(true)
+            })
+            .catch((error) => {
+                setBookmarked(false)
+                console.log(error);
+            })
+    }
+  }
+
+  const handlePostComment = (e) => {
+
+    e.preventDefault()
+
+    if(commentContent === "") {
+      toast.error("Comment Content Required !!");
+      return;
+    }
+
+    const data = {
+      'content' : commentContent
+    }
+
+    axios.post(`/api/v1/comment/postComment/${blogId}`, data)
+      .then((response) => {
+        toast.success('Comment Posted Successfully');
+        setCommentCount((prev) => (prev+1));
+        setCommentContent("");
+      })
+      .catch((error) => {
+        toast.error("Cannot Post Comment !!")
+        console.log(error);
+      })
+  }
+
+  const handleDeleteComment = (e) => {
+    e.preventDefault()
+    axios.post(`/api/v1/comment/deleteComment/${blogId}`)
+      .then((response) => {
+        toast.success('Comment Deleted Successfully');
+        setCommentCount((prev) => (prev-1));
+      })
+      .catch((error) => {
+        toast.error("Cannot Delete Comment !!")
+        console.log(error);
+      })
+  }
 
 
   const updationDate = parseInt(fullTimeInfo.substring(8,10));
@@ -186,6 +278,86 @@ function Blog() {
           <div>
             <p className='text-[.8rem] opacity-50 tracking-widest font-[200]'>updated {time} ago</p>
           </div>
+        </div>
+
+        <div className='mt-10 p-2 w-full flex'>
+          
+          <div className='pt-2 pb-2 w-fit'>
+            <button onClick={handleLike} className='flex pt-2 pb-2 pl-4 pr-4 rounded-lg shadow-[0px_0px_10px_5px_rgba(12,12,12,.3)] hover:shadow-[0px_0px_5px_5px_rgba(0,0,0,.01)] transition-all ease-in-out duration-500'>
+              <div className={`stroke-[#ff0000] stroke-2 ${like ? 'fill-[#ff0000] ' : 'fill-none'}`}>
+                <Like />
+              </div>
+              <span className='tracking-widest text-[0.94rem] ml-2 '>
+                {likesCount}
+              </span>
+            </button>
+          </div>
+
+          <div className='p-2 w-fit'>
+            <button onClick={handleBookmark} className='flex p-2 rounded-lg shadow-[0px_0px_10px_5px_rgba(12,12,12,.3)] hover:shadow-[0px_0px_5px_5px_rgba(0,0,0,.01)] transition-all ease-in-out duration-500'>
+              <div className={`stroke-[#ffff00] stroke-2 ${bookmarked ? 'fill-[#ffff00] ' : 'fill-none'}`}>
+                <Star />
+              </div>
+            </button>
+          </div>
+
+        </div>
+
+        <div className='flex-col w-full p-2 mt-10'>
+
+          <div className='w-full flex pt-2 pb-2 justify-center'>
+            <input
+              type='text'
+              placeholder='COMMENT'
+              className='p-3 pl-4 w-[85%] outline-none rounded-md shadow-[0px_0px_10px_5px_rgba(0,0,0,0.1)] bg-[#1a1a1a] placeholder:opacity-30 placeholder:font-[400] placeholder:tracking-widest'
+              value={commentContent}
+              onChange={(e) => (setCommentContent(e.target.value))}
+            />
+
+            <button
+              onClick={handlePostComment}
+              className='shadow-[0px_0px_10px_5px_rgba(0,0,0,0.1)] w-[15%] ml-10 p-2 rounded-md bg-gradient-to-r from-[#f3d8d8] via-[#c56da9] to-[#9b16b6]'
+            >
+              POST
+            </button>
+          </div>
+
+        </div>
+
+        <div className='w-full mt-8 p-2'>
+
+          {
+            comments?.map((comment) => (
+              <div 
+                key={comment._id}
+                className='mt-2 flex justify-between p-3 shadow-[0px_0px_10px_5px_rgba(0,0,0,.01)]'
+              >
+                <Comments 
+                  content={comment.content}
+                  blogId={comment.blog}
+                  owner={comment.owner}
+                  createdAt = {comment.createdAt}
+                  blogOwner = {blog.owner}
+                />
+
+                {
+                  (comment.owner === userData._id) ? (
+                    <>
+                      <div className='flex items-center justify-center w-[10%]'>
+                        <button
+                          onClick={handleDeleteComment} 
+                          className='stroke-[1] stroke-[#404040] hover:stroke-[1.5] hover:stroke-[#ff0000] hover:drop-shadow-[0_0px_0.5px_rgba(255,0,0,.5)] transition-all ease-in-out duration-300'
+                        >
+                          <Delete />
+                        </button>
+                      </div>
+                    </>
+                  ) : (<></>)
+                }
+              </div>
+            ))
+          }
+
         </div>
 
       </div>
