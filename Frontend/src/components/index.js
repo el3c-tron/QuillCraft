@@ -12,6 +12,7 @@ import BlogCard from './BlogCard/BlogCard.jsx'
 import PostForm from './PostForm/PostForm.jsx'
 import FileInput from './Svgs/FileInput.jsx'
 import Comments from './Comments/Comments.jsx'
+import UserInfo from './UserInfo/UserInfo.jsx'
 
 export {
     Header,
@@ -27,5 +28,6 @@ export {
     BlogCard,
     PostForm,
     FileInput,
-    Comments
+    Comments,
+    UserInfo
 }

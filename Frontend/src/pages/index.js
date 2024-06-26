@@ -7,6 +7,8 @@ import Login from './Login'
 import Post from './Post'
 import Registration from './Registration'
 import Profile from './Profile'
+import EditUserInfo from './EditUserInfo'
+import ChangePassword from './ChangePassword'
 
 
 export {
@@ -18,5 +20,7 @@ export {
     Login,
     Post,
     Registration,
-    Profile
+    Profile,
+    EditUserInfo,
+    ChangePassword
 }

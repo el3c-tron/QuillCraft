@@ -205,7 +205,7 @@ const changePassword = asyncHandler( async (req, res) => {
 
     const verifyPassword = await user.isPasswordCorrect(oldPassword);
 
-    if(!passwordVerify) {
+    if(!verifyPassword) {
         return res.status(400).json(new ApiError(400, "Old Password is Incorrect !!"))
     }
     // if(!verifyPassword) throw new ApiError(400, "userController: :: changePassword :: Old Passowrd is incorrect");

@@ -1,10 +1,12 @@
 import React from 'react'
-import { LogoutBtn } from '../components'
+import { Footer, Header, LogoutBtn, UserInfo } from '../components'
 
 function Profile() {
   return (
     <>
         <LogoutBtn />
+        
+        
     </>
   )
 }

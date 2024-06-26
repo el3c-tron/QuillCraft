@@ -6,7 +6,19 @@ import { Provider } from 'react-redux'
 import store from './store/store.js'
 import {Toaster} from 'sonner'
 import {RouterProvider, createBrowserRouter} from 'react-router-dom'
-import {Blog, BookmarkedBlogs, EditBlog, Home, LikedBlogs, Login, Post, Profile, Registration} from './pages/index.js'
+import {
+  Blog, 
+  BookmarkedBlogs, 
+  ChangePassword, 
+  EditBlog, 
+  EditUserInfo, 
+  Home, 
+  LikedBlogs, 
+  Login, 
+  Post, 
+  Profile, 
+  Registration
+} from './pages/index.js'
 import AuthLayout from './authentication/AuthLayout.jsx'
 
 const router = createBrowserRouter([
@@ -71,6 +83,22 @@ const router = createBrowserRouter([
         element: (
           <AuthLayout authentication = {true}>
             <Profile />
+          </AuthLayout>
+        )
+      },
+      {
+        path: '/editUserInfo/:userId',
+        element: (
+          <AuthLayout authentication = {true}>
+            <EditUserInfo />
+          </AuthLayout>
+        )
+      },
+      {
+        path: '/changePassword/:userId',
+        element: (
+          <AuthLayout authentication = {true}>
+            <ChangePassword />
           </AuthLayout>
         )
       }
