@@ -9,6 +9,7 @@ import Bookmark from '../components/Svgs/Bookmark';
 import Star from '../components/Svgs/Star';
 import { useSelector } from 'react-redux';
 import Delete from '../components/Svgs/Delete';
+import Edit from '../components/Svgs/Edit';
 
 function Blog() {
 
@@ -210,6 +211,23 @@ function Blog() {
       })
   }
 
+  const handleBlogDelete = (e) => {
+
+    e.preventDefault();
+
+    axios.post(`/api/v1/blog/deleteBlog/${blogId}`)
+      .then((response) => {
+        toast.success("Blog Deleted Successfully");
+        navigate('/');
+      })
+      .catch((error) => {
+        toast.error("Blog Deletion Failed !!");
+        console.log(error);
+      })
+
+      return ;
+  }
+
 
   const updationDate = parseInt(fullTimeInfo.substring(8,10));
   const updationMonth = parseInt(fullTimeInfo.substring(5,7));
@@ -280,26 +298,64 @@ function Blog() {
           </div>
         </div>
 
-        <div className='mt-10 p-2 w-full flex'>
+        <div className='mt-10 p-2 w-full flex justify-between'>
+
+          <div className='flex w-fit'>
           
-          <div className='pt-2 pb-2 w-fit'>
-            <button onClick={handleLike} className='flex pt-2 pb-2 pl-4 pr-4 rounded-lg shadow-[0px_0px_10px_5px_rgba(12,12,12,.3)] hover:shadow-[0px_0px_5px_5px_rgba(0,0,0,.01)] transition-all ease-in-out duration-500'>
-              <div className={`stroke-[#ff0000] stroke-2 ${like ? 'fill-[#ff0000] ' : 'fill-none'}`}>
-                <Like />
-              </div>
-              <span className='tracking-widest text-[0.94rem] ml-2 '>
-                {likesCount}
-              </span>
-            </button>
+            <div className='pt-2 pb-2 w-fit'>
+              <button onClick={handleLike} className='flex pt-2 pb-2 pl-4 pr-4 rounded-lg shadow-[0px_0px_10px_5px_rgba(12,12,12,.3)] hover:shadow-[0px_0px_5px_5px_rgba(0,0,0,.01)] transition-all ease-in-out duration-500'>
+                <div className={`stroke-[#ff0000] stroke-2 ${like ? 'fill-[#ff0000] ' : 'fill-none'}`}>
+                  <Like />
+                </div>
+                <span className='tracking-widest text-[0.94rem] ml-2 '>
+                  {likesCount}
+                </span>
+              </button>
+            </div>
+
+            <div className='p-2 w-fit'>
+              <button onClick={handleBookmark} className='flex p-2 rounded-lg shadow-[0px_0px_10px_5px_rgba(12,12,12,.3)] hover:shadow-[0px_0px_5px_5px_rgba(0,0,0,.01)] transition-all ease-in-out duration-500'>
+                <div className={`stroke-[#ffff00] stroke-2 ${bookmarked ? 'fill-[#ffff00] ' : 'fill-none'}`}>
+                  <Star />
+                </div>
+              </button>
+            </div>
+
           </div>
 
-          <div className='p-2 w-fit'>
-            <button onClick={handleBookmark} className='flex p-2 rounded-lg shadow-[0px_0px_10px_5px_rgba(12,12,12,.3)] hover:shadow-[0px_0px_5px_5px_rgba(0,0,0,.01)] transition-all ease-in-out duration-500'>
-              <div className={`stroke-[#ffff00] stroke-2 ${bookmarked ? 'fill-[#ffff00] ' : 'fill-none'}`}>
-                <Star />
+          {
+            (userData._id === blog.owner) ? (
+              <div className='flex'>
+
+                <div className='pt-2 pb-2 w-fit mr-2'>
+                  <Link to={`/editBlog/${blogId}`}>
+                    <button className='flex pt-2 pb-2 pl-4 pr-4 rounded-lg shadow-[0px_0px_10px_5px_rgba(12,12,12,.3)] hover:shadow-[0px_0px_5px_5px_rgba(0,0,0,.01)] transition-all ease-in-out duration-500'>
+                      <div className='stroke-1 stroke-white'>
+                        <Edit />
+                      </div>
+                      <span className='tracking-widest text-[.9rem] ml-2'>
+                        Edit
+                      </span>
+                    </button>
+                  </Link>
+                </div>
+
+                <div className='pt-2 pb-2 w-fit ml-4'>
+                  <button onClick={handleBlogDelete} className='bg-[#ff0000] hover:bg-[#ff0000d9] flex pt-2 pb-2 pl-4 pr-4 rounded-lg shadow-[0px_0px_10px_5px_rgba(12,12,12,.3)] hover:shadow-[0px_0px_5px_5px_rgba(0,0,0,.01)] transition-all ease-in-out duration-500'>
+                    <div className='stroke-[1.5] stroke-white'>
+                      <Delete />
+                    </div>
+                    <span className='tracking-widest text-[.9rem] ml-2 font-semibold'>
+                      Delete
+                    </span>
+                  </button>
+                </div>
+
               </div>
-            </button>
-          </div>
+            ) : (
+              <></>
+            )
+          }
 
         </div>
 

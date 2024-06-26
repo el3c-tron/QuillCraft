@@ -101,7 +101,7 @@ function PostForm({blog}) {
 
                     <label htmlFor='file' className='flex flex-col justify-center w-[250px] h-[190px]  border-dashed border-2 border-[#fff] items-center text-center p-[5px] color-[#1a1a1a] cursor-pointer'>
                         <FileInput />
-                        <p className='pt-6'>{(imageFile === "") ? 'drag and drop your file here or click to select a file!' : imageFile.name}</p>
+                        <p className='pt-6 w-full truncate ...'>{(imageFile === "") ? 'drag and drop your file here or click to select a file!' : (imageFile.name) ? (imageFile.name) : (imageFile)}</p>
                         
                     </label>
 

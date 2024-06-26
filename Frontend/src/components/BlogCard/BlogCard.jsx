@@ -3,14 +3,17 @@ import Like from '../Svgs/Like'
 import Comment from '../Svgs/Comment'
 import Star from '../Svgs/Star'
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {toast} from 'sonner'
 import { Link, useNavigate } from 'react-router-dom';
 import parse from 'html-react-parser'
+import { changeLikeCount, changeBookmarkCount } from '../../store/authSlice';
 
 
 function BlogCard({heading, content, blogId, coverImage, ownerId}) {
 
+    const dispatch = useDispatch()
+    const tempLike = 1;
     const [like, setLike] = useState(false);
     const [bookmarked, setBookmarked] = useState(false);
     const [username, setUsername] = useState("username");
@@ -83,6 +86,8 @@ function BlogCard({heading, content, blogId, coverImage, ownerId}) {
 
     const handleLike = () => {
 
+        // setLikeChange((prev) => !prev);
+
         if(!authStatus) {
             toast.error("You need to login first");
             navigate('/login');
@@ -94,6 +99,7 @@ function BlogCard({heading, content, blogId, coverImage, ownerId}) {
                 .then((response) => {
                     setLikeCount((prev) => (prev-1));
                     setLike(false);
+                    dispatch(changeLikeCount())
                 })
                 .catch((error) => {
                     setLike(true);
@@ -105,6 +111,7 @@ function BlogCard({heading, content, blogId, coverImage, ownerId}) {
                 .then((response) => {
                     setLikeCount((prev) => (prev+1));
                     setLike(true);
+                    dispatch(changeLikeCount())
                 })
                 .catch((error) => {
                     setLike(false);
@@ -125,6 +132,7 @@ function BlogCard({heading, content, blogId, coverImage, ownerId}) {
             axios.post(`/api/v1/bookmark/bookmarkDisable/${blogId}`)
                 .then((response) => {
                     setBookmarked(false);
+                    dispatch(changeBookmarkCount());
                 })
                 .catch((error) => {
                     setBookmarked(true);
@@ -135,6 +143,7 @@ function BlogCard({heading, content, blogId, coverImage, ownerId}) {
             axios.post(`/api/v1/bookmark/bookmarkEnable/${blogId}`)
                 .then((response) => {
                     setBookmarked(true)
+                    dispatch(changeBookmarkCount());
                 })
                 .catch((error) => {
                     setBookmarked(false)
