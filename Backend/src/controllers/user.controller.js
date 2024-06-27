@@ -387,6 +387,7 @@ const updateUserInfo = asyncHandler( async(req, res) => {
     let avatar;
 
     if(avatarLocalPath) {
+        console.log("AVATAR HERE");
         avatar = await uploadOnCloudinary(avatarLocalPath);
         if(!avatar) {
             return res

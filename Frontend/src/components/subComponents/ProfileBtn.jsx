@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux';
 import DefaultImage from '../Svgs/DefaultImage';
 import { Link } from 'react-router-dom';
+import Avatar from '../Svgs/Avatar';
 
 function ProfileBtn() {
 
@@ -13,23 +14,29 @@ function ProfileBtn() {
     <>
       <div className='flex w-full justify-end items-center'>
 
-        <div className='w-[55px] h-[50px] rounded-full mr-5 bg-[rgba(18,18,18,0.1)] shadow-[0px_0px_20px_2px_rgba(0,0,0,0.3)]'>
+        <div className='w-[55px] h-[50px] mr-5 flex justify-center items-center'>
           {
             (userData && userData.avatar) ? 
               (
                 <img 
-                  src="http://res.cloudinary.com/dzfs29rwu/image/upload/v1717610282/nszramjdhoeklkztpuql.jpg" 
+                  src={userData.avatar} 
                   alt="Pic" 
                   className='rounded-full w-full h-full bg-no-repeat bg-center bg-cover'
                 />
-              ) : (<DefaultImage />)
+              ) : (
+                <Avatar 
+                  height = {'45px'}
+                  width = {'45px'}
+                  fill = {'#eedcdc'}
+                />
+              )
           }
         </div>
         
-          <div className='bg-[rgba(18,18,18,0.1)] w-[40%]  shadow-[0px_0px_20px_2px_rgba(0,0,0,0.3)] rounded-lg '>
+          <div className=' w-[40%]  shadow-[0px_0px_10px_5px_rgba(0,0,0,0.1)] rounded-lg '>
             <Link to={`/userProfile/${userData._id}`}>
             
-              <button className='w-full h-full p-4 tracking-widest font-[200] text-[#eedcdc] hover:text-white hover:drop-shadow-[0_0px_0.5px_rgba(255,255,255,1)] transition-all ease-in-out duration-100'>
+              <button className='w-full h-full p-4 tracking-widest font-[200] text-[#eedcdc] hover:drop-shadow-[0_0px_0.5px_rgba(255,255,255,.01)] transition-all ease-in-out duration-200'>
                 {
                   (authStatus) ? (<p className='truncate ...'>{userData.username}</p>) : (<p className='truncate ...'>Profile</p>)
                 }

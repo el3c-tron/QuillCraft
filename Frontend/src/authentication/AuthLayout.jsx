@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Loader } from '../components'
-import axios from 'axios'
 
 function AuthLayout({children, authentication = true}) {
   
