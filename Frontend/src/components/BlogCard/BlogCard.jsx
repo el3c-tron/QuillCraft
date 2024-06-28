@@ -161,9 +161,11 @@ function BlogCard({heading, content, blogId, coverImage, ownerId}) {
                         </p>
                     </div>
                     <div className='w-fit h-fit p-1 pl-3'>
-                        <p className='h-fit w-fit text-xs font-[Pacifico] tracking-widest text-[#80b3ff]'>
-                            @{username}
-                        </p>
+                        <Link to={`/userProfile/${ownerId}`}>
+                            <p className='h-fit w-fit text-xs font-[Pacifico] tracking-widest text-[#80b3ff]'>
+                                @{username}
+                            </p>
+                        </Link>
                     </div>
                     <div className='mt-4 h-[30%] overflow-hidden'>
                         <div className=' pl-3 font-[300] text-sm h-full pr-3 text-[#F1D4D4]'>

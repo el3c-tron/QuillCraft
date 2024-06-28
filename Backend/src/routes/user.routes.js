@@ -3,6 +3,7 @@ import {
     changePassword, 
     getCurrentUser, 
     getUserBlogs, 
+    getUserBlogsById, 
     getUserBookmarkedBlogs, 
     getUserById, 
     getUserLikedBlogs, 
@@ -36,6 +37,8 @@ router.route("/getUserBlogs").get(verifyJWT, getUserBlogs);
 router.route("/getUserBookmarkedBlogs").get(verifyJWT, getUserBookmarkedBlogs);
 
 router.route("/getUserLikedBlogs").get(verifyJWT, getUserLikedBlogs);
+
+router.route("/getUserBlogsById/:userId").get(getUserBlogsById);
 
 router.route("/updateUserInfo").post(
     upload.single("avatar"),

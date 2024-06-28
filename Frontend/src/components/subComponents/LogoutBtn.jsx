@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import {login, logout} from '../../store/authSlice.js'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import Logout from '../Svgs/Logout.jsx'
 
 function LogoutBtn() {
 
@@ -26,14 +27,15 @@ function LogoutBtn() {
   }
 
   return (
-    <div className='bg-[rgba(18,18,18,0.1)] w-[40%] shadow-[0px_0px_20px_2px_rgba(0,0,0,0.3)] rounded-lg '>
-        <button 
-          onClick={userLogout}
-          className='w-full h-full p-4 tracking-widest font-[200] text-[#eedcdc] hover:text-white hover:drop-shadow-[0_0px_0.5px_rgba(255,255,255,1)] transition-all ease-in-out duration-100'
-        >
+    <button 
+      onClick={userLogout}
+      className='bg-[#ff0000] fill-white hover:bg-[#ff0000d9] flex pt-2 pb-2 pl-4 pr-4 rounded-lg shadow-[0px_0px_10px_5px_rgba(12,12,12,.3)] hover:shadow-[0px_0px_5px_5px_rgba(0,0,0,.01)] transition-all ease-in-out duration-500'
+    >
+      <Logout />
+      <span className='tracking-widest text-[.9rem] ml-2 text-white'>
           Logout
-        </button>
-    </div>
+      </span>
+    </button>
   )
 }
 
